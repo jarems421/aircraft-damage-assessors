@@ -74,50 +74,25 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-slate-900 border-b border-slate-800 text-white select-none">
-      {/* Top Technical Metadata Bar */}
-      <div className="hidden sm:block border-b border-slate-800/80 bg-slate-950/60 py-1.5 text-[11px] font-mono text-slate-400">
-        <Container>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
-                <span>TECHNICAL AVIATION ASSESSMENT</span>
-              </span>
-              <span className="text-slate-600">|</span>
-              <span className="text-slate-400">INCIDENT & DAMAGE EVALUATION</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link
-                href="/contact"
-                className="text-slate-300 hover:text-white transition-colors flex items-center gap-1.5"
-              >
-                <span>Technical Enquiries & Assessment Requests</span>
-                <span className="text-blue-400">→</span>
-              </Link>
-            </div>
-          </div>
-        </Container>
-      </div>
-
+    <header className="sticky top-0 z-50 bg-slate-950/85 backdrop-blur-md border-b border-slate-800/60 text-white select-none transition-all">
       {/* Main Navigation Bar */}
       <Container>
         <div className="flex h-20 items-center justify-between">
           {/* Company Brand Wordmark */}
           <Link
             href="/"
-            className="flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-blue-500 py-2"
+            className="flex items-center gap-3.5 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-xl py-1.5 transition-transform active:scale-[0.99]"
             aria-label="Aircraft Damage Assessors Ltd Home"
           >
-            <div className="w-10 h-10 bg-blue-700 text-white flex items-center justify-center font-mono font-bold text-sm tracking-widest border border-blue-500 shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center font-mono font-bold text-sm tracking-wider rounded-xl border border-blue-400/30 shadow-md shrink-0">
               ADA
             </div>
             <div>
               <span className="block text-base sm:text-lg font-bold tracking-tight text-white font-sans leading-tight">
-                AIRCRAFT DAMAGE ASSESSORS
+                Aircraft Damage Assessors
               </span>
-              <span className="block text-[11px] font-mono text-slate-400 tracking-wider uppercase">
-                TECHNICAL AVIATION SERVICES
+              <span className="block text-[11px] font-sans text-slate-400 font-medium tracking-wide">
+                Specialist Technical Services
               </span>
             </div>
           </Link>
@@ -130,20 +105,17 @@ export function Header() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`px-2.5 xl:px-3.5 py-2 text-sm font-medium tracking-tight transition-colors duration-150 relative whitespace-nowrap ${
+                  className={`px-3.5 py-2 text-sm font-medium tracking-tight transition-all duration-150 rounded-lg relative whitespace-nowrap ${
                     isActive
-                      ? "text-white font-semibold"
-                      : "text-slate-300 hover:text-white"
+                      ? "text-white font-semibold bg-slate-800/60 shadow-xs"
+                      : "text-slate-300 hover:text-white hover:bg-slate-800/30"
                   }`}
                 >
                   {link.name}
                   {link.badge && (
-                    <span className="hidden xl:inline-block ml-1.5 text-[10px] font-mono px-1.5 py-0.5 bg-blue-900 text-blue-200 border border-blue-700 uppercase whitespace-nowrap">
+                    <span className="hidden xl:inline-block ml-2 text-[10px] font-sans font-semibold px-2 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full whitespace-nowrap">
                       {link.badge}
                     </span>
-                  )}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-3.5 right-3.5 h-0.5 bg-blue-500" />
                   )}
                 </Link>
               );
@@ -156,7 +128,7 @@ export function Header() {
               href="/contact"
               variant="primary"
               size="md"
-              className="font-semibold shadow-md tracking-normal"
+              className="font-semibold shadow-thock-primary tracking-normal"
             >
               Request an Assessment
             </Button>
@@ -166,14 +138,14 @@ export function Header() {
           <div className="flex lg:hidden items-center gap-2">
             <Link
               href="/contact"
-              className="hidden sm:inline-flex text-xs font-semibold px-3.5 py-2 bg-blue-700 text-white hover:bg-blue-800"
+              className="hidden sm:inline-flex text-xs font-semibold px-4 py-2 bg-blue-600 text-white rounded-lg shadow-sm hover:bg-blue-500 transition-colors"
             >
               Assessment
             </Link>
             <button
               ref={menuButtonRef}
               type="button"
-              className="p-2.5 text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="p-2.5 text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? "Close navigation menu" : "Open navigation menu"}
@@ -193,8 +165,8 @@ export function Header() {
           aria-label="Mobile Navigation Menu"
           className="fixed inset-0 top-20 z-40 lg:hidden bg-slate-950/90 backdrop-blur-xs"
         >
-          <div className="flex flex-col h-[calc(100vh-5rem)] bg-slate-900 border-b border-slate-800 p-6 overflow-y-auto">
-            <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
+          <div className="flex flex-col h-[calc(100vh-5rem)] bg-slate-950/95 border-b border-slate-800/80 p-6 overflow-y-auto">
+            <nav className="flex flex-col space-y-2" aria-label="Mobile Navigation">
               {MAIN_NAV_LINKS.map((link) => {
                 const isActive = pathname === link.href;
                 return (
@@ -202,15 +174,15 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={closeMenu}
-                    className={`flex items-center justify-between p-3.5 text-base font-medium tracking-tight border-b border-slate-800/60 ${
+                    className={`flex items-center justify-between px-4 py-3.5 text-base font-medium tracking-tight rounded-xl transition-colors ${
                       isActive
-                        ? "text-blue-400 bg-slate-800 font-semibold"
-                        : "text-slate-200 hover:text-white hover:bg-slate-800"
+                        ? "text-blue-400 bg-slate-800/80 font-semibold"
+                        : "text-slate-200 hover:text-white hover:bg-slate-800/40"
                     }`}
                   >
                     <span>{link.name}</span>
                     {link.badge && (
-                      <span className="text-[10px] font-mono px-2 py-0.5 bg-blue-950 text-blue-300 border border-blue-800">
+                      <span className="text-[10px] font-sans font-semibold px-2.5 py-0.5 bg-blue-500/20 text-blue-300 border border-blue-500/30 rounded-full">
                         {link.badge}
                       </span>
                     )}
@@ -219,12 +191,12 @@ export function Header() {
               })}
             </nav>
 
-            <div className="mt-8 pt-6 border-t border-slate-800 space-y-4">
+            <div className="mt-8 pt-6 border-t border-slate-800/80 space-y-4">
               <Button
                 href="/contact"
                 variant="primary"
                 size="lg"
-                className="w-full text-center"
+                className="w-full text-center shadow-thock-primary font-semibold"
                 onClick={closeMenu}
               >
                 Request an Assessment

@@ -14,17 +14,17 @@ export function Badge({
   mono = true,
 }: BadgeProps) {
   const baseStyles =
-    "inline-flex items-center text-xs px-2.5 py-1 tracking-wider uppercase font-medium border";
+    "inline-flex items-center text-xs px-3.5 py-1 tracking-wide font-medium border rounded-full select-none";
 
   const variants = {
-    neutral: "bg-slate-100 text-slate-700 border-slate-200",
-    primary: "bg-blue-50 text-blue-800 border-blue-200",
-    warning: "bg-amber-50 text-amber-800 border-amber-200",
-    dark: "bg-slate-800 text-slate-200 border-slate-700",
-    outline: "bg-transparent text-slate-600 border-slate-300",
+    neutral: "bg-slate-100 text-slate-700 border-slate-200/90 shadow-xs",
+    primary: "bg-blue-600/15 text-blue-400 border-blue-500/30 shadow-xs",
+    warning: "bg-amber-500/10 text-amber-700 border-amber-500/30",
+    dark: "bg-slate-800/90 text-slate-200 border-slate-700/80 shadow-xs",
+    outline: "bg-transparent text-slate-300 border-slate-700/80",
   };
 
-  const fontStyle = mono ? "font-mono text-[11px]" : "font-sans text-xs";
+  const fontStyle = mono ? "font-sans text-xs font-semibold" : "font-sans text-xs font-medium";
 
   return (
     <span

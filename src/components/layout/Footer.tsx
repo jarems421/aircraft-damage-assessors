@@ -10,15 +10,15 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800 font-sans text-sm">
+    <footer className="bg-slate-950 text-slate-300 border-t border-slate-800/80 font-sans text-sm">
       {/* Primary Footer Content */}
-      <div className="py-12 sm:py-16">
+      <div className="py-16 sm:py-20">
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
             {/* Column 1: Company Profile (5 cols wide on desktop) */}
             <div className="lg:col-span-5">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 bg-blue-700 text-white flex items-center justify-center font-mono font-bold text-xs border border-blue-500">
+              <div className="flex items-center gap-3.5 mb-5">
+                <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-blue-700 text-white flex items-center justify-center font-mono font-bold text-xs tracking-wider rounded-xl border border-blue-400/30 shadow-sm">
                   ADA
                 </div>
                 <span className="font-bold text-base text-white tracking-tight">
@@ -26,12 +26,12 @@ export function Footer() {
                 </span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
-                {COMPANY_CONFIG.descriptor} Providing technical damage assessments, repair-cost estimations, and technical reporting for insurers, brokers, owners, and operators.
+                {COMPANY_CONFIG.descriptor} Technical damage assessments, repair-cost estimations, and clear reporting for insurers, brokers, owners, and operators.
               </p>
               <div className="text-xs text-slate-400">
                 <Link
                   href="/contact"
-                  className="text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1 font-medium"
+                  className="text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1.5 font-medium"
                 >
                   <span>Submit an assessment enquiry</span>
                   <span>→</span>
@@ -41,7 +41,7 @@ export function Footer() {
 
             {/* Column 2: Confirmed Services (3 cols wide) */}
             <div className="lg:col-span-3">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-white mb-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">
                 Confirmed Services
               </h3>
               <ul className="space-y-2.5 text-sm">
@@ -60,7 +60,7 @@ export function Footer() {
 
             {/* Column 3: Navigation (2 cols wide) */}
             <div className="lg:col-span-2">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-white mb-4">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">
                 Navigation
               </h3>
               <ul className="space-y-2.5 text-sm">
@@ -78,16 +78,16 @@ export function Footer() {
             </div>
 
             {/* Column 4: Assessment Action (2 cols wide) */}
-            <div className="lg:col-span-2 space-y-3">
-              <h3 className="text-xs font-mono font-semibold uppercase tracking-wider text-white mb-4">
+            <div className="lg:col-span-2 space-y-3.5">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-200 mb-4">
                 Enquiries
               </h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Submit aircraft incident particulars for prompt review by technical personnel.
+                Submit aircraft incident particulars for review by technical personnel.
               </p>
               <Link
                 href="/contact"
-                className="inline-block text-xs font-semibold px-3.5 py-2 bg-blue-700 text-white hover:bg-blue-600 transition-colors"
+                className="inline-block text-xs font-semibold px-4 py-2.5 bg-blue-600 text-white rounded-xl hover:bg-blue-500 transition-all shadow-thock-primary"
               >
                 Request an Assessment →
               </Link>
@@ -95,11 +95,11 @@ export function Footer() {
           </div>
 
           {/* Explicit Regulatory & Statutory Authority Disclaimer */}
-          <div className="mt-12 pt-8 border-t border-slate-800/80">
-            <div className="flex items-start gap-3 p-4 bg-slate-900/60 border border-slate-800 text-xs text-slate-400 leading-relaxed">
+          <div className="mt-14 pt-8 border-t border-slate-800/80">
+            <div className="flex items-start gap-3.5 p-5 bg-slate-900/60 rounded-2xl border border-slate-800 text-xs text-slate-400 leading-relaxed">
               <ShieldAlert className="w-5 h-5 text-slate-400 shrink-0 mt-0.5" />
               <div>
-                <strong className="text-slate-200">Regulatory Position Statement: </strong>
+                <strong className="text-slate-200 font-semibold">Regulatory Position Statement: </strong>
                 Aircraft Damage Assessors Ltd is a commercial company providing technical aviation damage assessments and related technical services. Aircraft Damage Assessors Ltd is not a government accident investigation authority (such as the AAIB or NTSB), statutory regulator, or official law-enforcement body. Investigations into potential cause are strictly conducted within the company&apos;s technical assessment scope.
               </div>
             </div>

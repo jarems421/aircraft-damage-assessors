@@ -13,14 +13,14 @@ export function Card({
   variant = "default",
   datum = false,
 }: CardProps) {
-  const baseStyles = "relative p-6 sm:p-7 transition-all duration-150";
+  const baseStyles = "relative p-6 sm:p-8 rounded-2xl transition-all duration-200";
 
   const variants = {
-    default: "bg-white border border-slate-200 text-slate-900 shadow-xs",
-    dark: "bg-slate-900 border border-slate-800 text-white",
-    bordered: "bg-transparent border border-slate-200 text-slate-900",
+    default: "bg-white border border-slate-200/80 text-slate-900 shadow-chic-card hover:border-slate-300/80",
+    dark: "bg-slate-900/90 border border-slate-800 text-white shadow-chic-dark backdrop-blur-xs",
+    bordered: "bg-slate-50/50 border border-slate-200/80 text-slate-900",
     interactive:
-      "bg-white border border-slate-200 text-slate-900 hover:border-blue-500 hover:shadow-sm",
+      "bg-white border border-slate-200/80 text-slate-900 shadow-chic-card hover:border-blue-500/50 hover:shadow-md",
   };
 
   return (

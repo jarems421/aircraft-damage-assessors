@@ -2,15 +2,15 @@ import React from "react";
 
 export function AircraftSchematic() {
   return (
-    <div className="w-full bg-slate-900 border border-slate-800 p-6 sm:p-8 text-slate-300 font-mono text-xs overflow-hidden relative">
+    <div className="w-full bg-slate-900/90 rounded-2xl border border-slate-800/80 p-6 sm:p-8 text-slate-300 shadow-chic-dark backdrop-blur-md overflow-hidden relative">
       {/* Header technical coordinates */}
-      <div className="flex flex-wrap items-center justify-between border-b border-slate-800 pb-3 mb-5 gap-2">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 bg-blue-500 shrink-0" />
-          <span className="text-white font-medium tracking-wide font-sans text-xs">Conceptual Airframe Reference</span>
+      <div className="flex flex-wrap items-center justify-between border-b border-slate-800/80 pb-3 mb-5 gap-2 font-sans">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)] shrink-0" />
+          <span className="text-white font-semibold text-xs tracking-tight">Airframe Inspection Reference</span>
         </div>
-        <div className="text-slate-400 text-[11px]">
-          <span>Illustrative Diagram</span>
+        <div className="text-slate-400 text-xs font-medium">
+          <span>Conceptual Schematic</span>
         </div>
       </div>
 
