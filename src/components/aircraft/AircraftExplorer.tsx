@@ -8,10 +8,10 @@ import styles from "./AircraftExplorer.module.css";
 
 const CONTROLS: [SceneAction, string, string][] = [["left", "Rotate left", "↶"], ["right", "Rotate right", "↷"], ["top", "Toggle view from above", "Top"], ["reset", "Reset view", "Reset"]];
 const subscribe = () => () => {};
-// Small screens and data-saver connections keep the still image until the visitor asks for the 3D view.
+// Data-saver connections keep the still image until the visitor asks for the 3D view; all other devices load it automatically.
 function prefersStill() {
   const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
-  return window.matchMedia("(max-width: 600px)").matches || connection?.saveData === true;
+  return connection?.saveData === true;
 }
 
 // Lets a visitor mark every damaged area of an aircraft. Choices are checkboxes submitted to

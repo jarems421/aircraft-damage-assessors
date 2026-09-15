@@ -10,7 +10,7 @@ The homepage hero and the damage assessment page use an original, unbranded civi
 
 Pixel density is capped at 1.5. Rendering happens only on input, easing or resize, with no idle spin. GPU resources and listeners are disposed on unmount.
 
-`aircraft-still.webp` is shown while the 3D view loads. On screens up to 600px wide, or with data saver on, it stays until the visitor presses "View in 3D", so Three.js is not downloaded unless requested. Regenerate it with `node scripts/capture-aircraft-still.cjs` against a running production server after changing the model or default angle.
+`aircraft-still.webp` is shown while the 3D view loads, on every screen size. With data saver on, it stays until the visitor presses "View in 3D", so Three.js is not downloaded unless requested. Regenerate it with `node scripts/capture-aircraft-still.cjs` against a running production server after changing the model or default angle.
 
 Meshes are tagged with a damage area in `createAircraft.ts` (`zone`). Selected areas are tinted blue; each tagged mesh owns its material so tints never bleed between areas.
 

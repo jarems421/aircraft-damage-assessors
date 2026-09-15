@@ -6,7 +6,7 @@ const assert = require('node:assert/strict');
 const settle = () => new Promise(resolve => setTimeout(resolve, 700));
 const ready = async page => {
   await page.locator('[data-status]').scroll();
-  // Small screens show a still image until "View in 3D" is pressed.
+  // Data-saver connections show a still image until "View in 3D" is pressed.
   const load = await page.$('::-p-text(View in 3D)');
   if (load) await load.click();
   await page.waitForSelector('[data-status="ready"]', { timeout: 30000 });
@@ -32,11 +32,9 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
       await page.setViewport({ width, height: 1000, isMobile: width === 390, hasTouch: width === 390 });
       await page.goto(base, { waitUntil: 'networkidle0' });
       if (width === 390) {
-        await page.locator('[data-status]').scroll(); await settle();
-        assert.equal(await page.$eval('[data-status]', el => el.dataset.status), 'idle', 'Small screens wait for a tap');
-        assert.equal(await page.$('[data-status] canvas'), null, 'No WebGL before tapping');
-        assert.ok(await page.$('[data-status] img'), 'Still image shown');
-        await page.screenshot({ path: 'screenshots/aircraft/mobile-still.png' });
+        await page.locator('[data-status]').scroll();
+        await page.waitForSelector('[data-status="ready"]', { timeout: 30000 });
+        assert.equal(await page.$('::-p-text(View in 3D)'), null, 'Phones load the 3D view without a tap');
       }
       await ready(page);
       if (width === 1440) {
