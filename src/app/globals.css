@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --navy-950: #080D1A;
+    --navy-900: #0B1220;
+    --navy-850: #0F172A;
+    --navy-800: #162035;
+    --navy-700: #1E293B;
+    
+    --aviation-blue-900: #172554;
+    --aviation-blue-800: #1E40AF;
+    --aviation-blue-700: #1D4ED8;
+    --aviation-blue-600: #2563EB;
+    --aviation-blue-500: #3B82F6;
+    
+    --slate-technical-50: #F8FAFC;
+    --slate-technical-100: #F1F5F9;
+    --slate-technical-200: #E2E8F0;
+    --slate-technical-300: #CBD5E1;
+    --slate-technical-400: #94A3B8;
+    --slate-technical-500: #64748B;
+    --slate-technical-600: #475569;
+    --slate-technical-700: #334155;
+    --slate-technical-800: #1E293B;
+    --slate-technical-900: #0F172A;
+  }
+
+  body {
+    background-color: #FFFFFF;
+    color: #0F172A;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Subtle Aviation Engineering Grid Texture */
+.bg-aviation-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+}
+
+.bg-aviation-grid-dark {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Crosshair / Datum Marker */
+.technical-datum {
+  position: relative;
+}
+.technical-datum::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+}
+.technical-datum::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  width: 8px;
+  height: 8px;
+  border-bottom: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
