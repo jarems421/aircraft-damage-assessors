@@ -9,7 +9,7 @@ import { CheckCircle2, Info } from "lucide-react";
 export const metadata = {
   title: "About | Specialist Aircraft Damage Assessors",
   description:
-    "Learn about Aircraft Damage Assessors Ltd, our specialist technical services, evidence-based methodology, and engineering integrity.",
+    "Learn about Aircraft Damage Assessors Ltd and our specialist aircraft damage assessment and aviation technical services.",
 };
 
 export default function AboutPage() {
@@ -41,15 +41,15 @@ export default function AboutPage() {
                 OUR PURPOSE
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 font-sans">
-                Evidence-Based Technical Clarity in Aviation Damage Scenarios
+                Aviation Damage Assessment and Technical Services
               </h2>
 
               <p className="text-base text-slate-700 leading-relaxed font-sans">
-                When an aircraft is involved in an incident or accident, the subsequent decisions made by underwriters, insurance brokers, aircraft owners, and maintenance organisations have significant technical and financial consequences.
+                When an aircraft is involved in an incident or accident, the subsequent decisions made by aircraft insurance companies, insurance brokers, aircraft owners, and aircraft operators have significant technical and financial consequences.
               </p>
 
               <p className="text-base text-slate-700 leading-relaxed font-sans">
-                Aircraft Damage Assessors Ltd provides evidence-grounded aircraft damage assessments. We assess damaged aircraft, document affected components, estimate costs of required parts and repair labour where repairable, evaluate repairability, and deliver detailed technical reports.
+                Aircraft Damage Assessors Ltd provides aircraft damage assessments. We assess damaged aircraft, document affected components, estimate costs of required parts and repair labour where repairable, evaluate repairability, and deliver detailed technical reports.
               </p>
 
               <div className="pt-4 border-t border-slate-200">
@@ -59,7 +59,7 @@ export default function AboutPage() {
                 <ul className="space-y-3 text-sm text-slate-700">
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
-                    <span><strong>Factual Precision:</strong> Every finding in our reports is grounded in observable physical evidence and technical data.</span>
+                    <span><strong>Damage Assessment:</strong> Technical assessment and documentation of aircraft damage following incidents.</span>
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
@@ -67,7 +67,7 @@ export default function AboutPage() {
                   </li>
                   <li className="flex items-start gap-2.5">
                     <CheckCircle2 className="w-4 h-4 text-blue-700 shrink-0 mt-0.5" />
-                    <span><strong>Constructive Liaison:</strong> Coordinating with third-party Approved Maintenance Organisations (AMOs) when required repair capabilities are missing locally.</span>
+                    <span><strong>Third-Party AMO Coordination:</strong> Arranging a suitable third-party Approved Maintenance Organisation (AMO) where the current AMO does not have the required repair capability.</span>
                   </li>
                 </ul>
               </div>
@@ -85,7 +85,7 @@ export default function AboutPage() {
 
                 <div className="space-y-3 text-xs">
                   <div className="p-3 bg-white border border-slate-200">
-                    <span className="text-slate-400 block text-[10px] font-mono uppercase">REGISTERED ENTITY</span>
+                    <span className="text-slate-400 block text-[10px] font-mono uppercase">COMPANY</span>
                     <span className="text-slate-900 font-semibold">{COMPANY_CONFIG.name}</span>
                   </div>
 

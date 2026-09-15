@@ -46,7 +46,7 @@ export default function CookiesPage() {
           <section className="space-y-4 text-sm leading-relaxed text-slate-700">
             <h2 className="text-lg font-bold text-slate-900">3. Inquiries</h2>
             <p>
-              If you have any questions regarding our use of cookies, please contact: {COMPANY_CONFIG.email}.
+              If you have any questions regarding our use of cookies, please contact us via our online assessment enquiry form.
             </p>
           </section>
         </div>

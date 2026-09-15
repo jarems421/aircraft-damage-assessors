@@ -78,18 +78,16 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Aircraft Operators",
     ],
     scopePoints: [
-      "Arrangement of a suitable third-party AMO where current facility lacks repair capability",
-      "Identification of qualified maintenance organisations matching required repair scope",
-      "Liaison with third-party AMOs regarding technical repair requirements",
+      "Arrangement of a suitable third-party Approved Maintenance Organisation (AMO) where current facility lacks repair capability",
     ],
-    deliverableSummary: "Third-party AMO arrangement and repair coordination.",
+    deliverableSummary: "Arrangement of a suitable third-party AMO where required.",
   },
   {
     id: "modification-approvals",
     slug: "modification-approvals",
     title: "Aircraft Modification Applications & Approvals",
     shortDescription: "Support for aircraft modification applications and approvals across airframes, engines, avionics, instruments, and associated equipment.",
-    fullDescription: "Aircraft Damage Assessors Ltd provides support for aircraft modification applications and approvals, assisting clients with technical documentation and application processes.",
+    fullDescription: "Aircraft Damage Assessors Ltd provides support for aircraft modification applications and approvals involving airframes, engines, avionics, instruments, and associated equipment.",
     isFlagship: false,
     targetAudiences: [
       "Aircraft Owners",
@@ -103,6 +101,6 @@ export const SERVICES_DATA: ServiceItem[] = [
       "Modification applications and approvals involving instruments",
       "Modification applications and approvals involving associated equipment",
     ],
-    deliverableSummary: "Technical application support and documentation for modification approvals.",
+    deliverableSummary: "Support for aircraft modification applications and approvals across airframes, engines, avionics, instruments, and associated equipment.",
   },
 ];

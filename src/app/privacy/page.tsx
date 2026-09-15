@@ -32,7 +32,7 @@ export default function PrivacyPage() {
           <section className="space-y-4 text-sm leading-relaxed text-slate-700">
             <h2 className="text-lg font-bold text-slate-900">1. Data Controller Information</h2>
             <p>
-              The data controller for information processed through this website is {COMPANY_CONFIG.name}, with registered office details pending confirmation: {COMPANY_CONFIG.officeLocation}.
+              The data controller for information processed through this website is {COMPANY_CONFIG.name}. Registered company and office details will be confirmed prior to production launch.
             </p>
           </section>
 
@@ -59,7 +59,7 @@ export default function PrivacyPage() {
           <section className="space-y-4 text-sm leading-relaxed text-slate-700">
             <h2 className="text-lg font-bold text-slate-900">4. Contact & Inquiries</h2>
             <p>
-              For data protection questions, please contact our designated privacy representative at {COMPANY_CONFIG.email}.
+              For data protection questions, please contact our designated privacy representative via our online assessment enquiry form.
             </p>
           </section>
         </div>

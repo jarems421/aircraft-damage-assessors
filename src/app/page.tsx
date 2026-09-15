@@ -104,7 +104,7 @@ export default function HomePage() {
             </div>
             <div className="border-l-2 border-blue-500 pl-3">
               <span className="text-slate-400 block text-[10px] uppercase">ASSESSMENT SCOPE</span>
-              <span className="text-white font-semibold font-sans text-sm">Airframes, Systems, Parts</span>
+              <span className="text-white font-semibold font-sans text-sm">Aircraft Damage Assessment</span>
             </div>
             <div className="border-l-2 border-blue-500 pl-3">
               <span className="text-slate-400 block text-[10px] uppercase">REPAIR LIAISON</span>
@@ -162,8 +162,8 @@ export default function HomePage() {
                   <li className="flex items-start gap-3">
                     <span className="w-5 h-5 bg-blue-100 text-blue-800 font-mono text-xs flex items-center justify-center shrink-0 mt-0.5 font-bold">3</span>
                     <div>
-                      <strong className="text-slate-900 font-semibold block">Objective Technical Perspective</strong>
-                      Objective engineering findings formulated without bias toward repair facility, insurer, or operator.
+                      <strong className="text-slate-900 font-semibold block">Independent Assessment</strong>
+                      Technical damage assessment and reporting within the company&apos;s defined scope.
                     </div>
                   </li>
                 </ul>
@@ -179,7 +179,7 @@ export default function HomePage() {
           <SectionHeader
             badgeText="DELIVERABLES SPECIFICATION"
             title="What You Receive: The Assessment Deliverables"
-            description="Every damage assessment produces concrete, evidence-based technical deliverables designed for presentation to insurance adjusters, underwriters, owners, and technical directors."
+            description="Every damage assessment produces concrete technical deliverables to support decision-making for aircraft insurers, brokers, owners, and operators."
             theme="dark"
           />
 
@@ -188,7 +188,7 @@ export default function HomePage() {
               <Card
                 key={item.id}
                 variant="dark"
-                className="bg-slate-850/80 border-slate-800 hover:border-blue-500/50 transition-colors p-6 flex flex-col justify-between"
+                className="bg-slate-900/80 border-slate-800 hover:border-blue-500/50 transition-colors p-6 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -416,7 +416,7 @@ export default function HomePage() {
         <Container size="narrow">
           <div className="text-center space-y-6">
             <Badge variant="primary" mono>
-              RAPID INCIDENT INTAKE
+              ASSESSMENT ENQUIRY
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white font-sans">
               Have an Aircraft Requiring Technical Damage Assessment?

@@ -8,9 +8,6 @@ export interface CompanyConfig {
   shortName: string;
   tagline: string;
   descriptor: string;
-  email: string;
-  phone: string;
-  officeLocation: string;
 }
 
 export const COMPANY_CONFIG: CompanyConfig = {
@@ -18,10 +15,6 @@ export const COMPANY_CONFIG: CompanyConfig = {
   shortName: "Aircraft Damage Assessors",
   tagline: "When Aircraft Are Damaged, Decisions Need Evidence.",
   descriptor: "Aircraft Damage Assessors Ltd provides specialist aircraft damage assessment and associated technical aviation services.",
-  
-  email: "enquiries@aircraftdamageassessors.com",
-  phone: "Technical Enquiries Via Portal",
-  officeLocation: "Location Available Upon Request",
 };
 
 export const CONFIRMED_AUDIENCES = [

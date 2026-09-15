@@ -39,7 +39,7 @@ export function Button({
     outlineDark:
       "bg-slate-800/80 text-white hover:bg-slate-700 active:bg-slate-900 border border-slate-500 focus:ring-blue-400 shadow-xs",
     dark:
-      "bg-slate-800 text-slate-100 hover:bg-slate-750 active:bg-slate-700 border border-slate-700 focus:ring-blue-400",
+      "bg-slate-800 text-slate-100 hover:bg-slate-700 active:bg-slate-900 border border-slate-700 focus:ring-blue-400",
     ghost:
       "bg-transparent text-slate-700 hover:bg-slate-100 active:bg-slate-200 border border-transparent focus:ring-blue-600",
   };

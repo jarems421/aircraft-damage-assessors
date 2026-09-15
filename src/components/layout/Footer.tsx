@@ -26,11 +26,16 @@ export function Footer() {
                 </span>
               </div>
               <p className="text-slate-400 text-sm leading-relaxed max-w-sm mb-6">
-                {COMPANY_CONFIG.descriptor} Providing evidence-based damage assessments, repair-cost estimations, and technical reporting for insurers, brokers, owners, and operators.
+                {COMPANY_CONFIG.descriptor} Providing technical damage assessments, repair-cost estimations, and technical reporting for insurers, brokers, owners, and operators.
               </p>
-              <div className="text-xs text-slate-400 space-y-1">
-                <p>Technical enquiries received via online intake.</p>
-                <p className="text-slate-300 font-mono">{COMPANY_CONFIG.email}</p>
+              <div className="text-xs text-slate-400">
+                <Link
+                  href="/contact"
+                  className="text-blue-400 hover:text-blue-300 transition-colors inline-flex items-center gap-1 font-medium"
+                >
+                  <span>Submit an assessment enquiry</span>
+                  <span>→</span>
+                </Link>
               </div>
             </div>
 

@@ -281,35 +281,29 @@ export default function DamageAssessmentPage() {
                 MAINTENANCE COORDINATION
               </Badge>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-sans">
-                Third-Party AMO Coordination Where Capability Is Lacking
+                Third-Party AMO Coordination
               </h2>
               <p className="text-base text-slate-600 leading-relaxed font-sans">
-                When an aircraft is considered repairable, the current maintenance facility may not possess the required repair capability for the work needed.
+                When an aircraft is believed to be repairable, the current maintenance facility may not possess the required repair capability for the work needed.
               </p>
               <p className="text-base text-slate-600 leading-relaxed font-sans">
-                In these circumstances, Aircraft Damage Assessors Ltd assists by arranging a suitable third-party Approved Maintenance Organisation (AMO) that possesses the verified capability to perform the repair to required standards.
+                In these circumstances, Aircraft Damage Assessors Ltd assists by arranging a suitable third-party Approved Maintenance Organisation (AMO).
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                <div className="p-4 bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-bold text-slate-900 block mb-1 font-sans">REPAIR ARRANGEMENT</span>
-                  <span className="text-xs text-slate-600 font-sans">Assisting clients by arranging suitable third-party AMOs capable of carrying out the work.</span>
-                </div>
-                <div className="p-4 bg-slate-50 border border-slate-200">
-                  <span className="text-xs font-bold text-slate-900 block mb-1 font-sans">TECHNICAL LIAISON</span>
-                  <span className="text-xs text-slate-600 font-sans">Supplying our detailed damage findings and parts schedule directly to the selected facility.</span>
-                </div>
+              <div className="p-4 bg-slate-50 border border-slate-200">
+                <span className="text-xs font-bold text-slate-900 block mb-1 font-sans">THIRD-PARTY AMO ARRANGEMENT</span>
+                <span className="text-xs text-slate-600 font-sans">Arrangement of a suitable third-party Approved Maintenance Organisation (AMO) where the current facility lacks required repair capability.</span>
               </div>
             </div>
             <div className="lg:col-span-5">
               <Card variant="dark" className="border-slate-800 p-6 sm:p-8 space-y-4">
                 <span className="text-xs text-blue-400 uppercase tracking-wider block font-sans font-semibold">
-                  SERVICE NOTE
+                  SERVICE SCOPE
                 </span>
                 <h3 className="text-lg font-bold text-white font-sans">
-                  Coordination Through Third Parties
+                  Third-Party Repair Coordination
                 </h3>
                 <p className="text-sm text-slate-300 leading-relaxed font-sans">
-                  Aircraft Damage Assessors Ltd acts to arrange and coordinate with appropriate third-party AMOs. We do not operate a maintenance facility directly, ensuring that repair facility selection remains objective and aligned with client needs.
+                  Arrangement of a suitable third-party Approved Maintenance Organisation (AMO) where the current AMO does not have the required repair capability.
                 </p>
                 <div className="pt-2">
                   <Button

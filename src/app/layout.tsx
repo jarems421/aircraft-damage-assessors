@@ -32,8 +32,8 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: COMPANY_CONFIG.name }],
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
   openGraph: {
     title: `${COMPANY_CONFIG.name} | Specialist Aviation Damage Assessment`,

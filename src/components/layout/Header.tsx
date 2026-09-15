@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Container } from "./Container";
@@ -11,29 +11,67 @@ import { Menu, X } from "lucide-react";
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-  // Handle ESC key to close drawer
+  // Focus trap & ESC key handling
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
+      if (!mobileMenuOpen) return;
+
+      if (e.key === "Escape") {
         setMobileMenuOpen(false);
+        menuButtonRef.current?.focus();
+        return;
+      }
+
+      if (e.key === "Tab" && drawerRef.current) {
+        const focusableElements = drawerRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusableElements.length === 0) return;
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        if (e.shiftKey) {
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
+        } else {
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
+        }
       }
     };
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [mobileMenuOpen]);
 
-  // Lock scroll when mobile menu is open
+  // Lock scroll & restore/set focus
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
+      const timer = setTimeout(() => {
+        const first = drawerRef.current?.querySelector<HTMLElement>(
+          'a[href], button:not([disabled])'
+        );
+        first?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
     } else {
       document.body.style.overflow = "unset";
     }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
   }, [mobileMenuOpen]);
+
+  const closeMenu = () => {
+    setMobileMenuOpen(false);
+    menuButtonRef.current?.focus();
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-slate-900 border-b border-slate-800 text-white select-none">
@@ -133,6 +171,7 @@ export function Header() {
               Assessment
             </Link>
             <button
+              ref={menuButtonRef}
               type="button"
               className="p-2.5 text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -147,7 +186,13 @@ export function Header() {
 
       {/* Accessible Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-20 z-40 lg:hidden bg-slate-950/90 backdrop-blur-xs">
+        <div
+          ref={drawerRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile Navigation Menu"
+          className="fixed inset-0 top-20 z-40 lg:hidden bg-slate-950/90 backdrop-blur-xs"
+        >
           <div className="flex flex-col h-[calc(100vh-5rem)] bg-slate-900 border-b border-slate-800 p-6 overflow-y-auto">
             <nav className="flex flex-col space-y-1" aria-label="Mobile Navigation">
               {MAIN_NAV_LINKS.map((link) => {
@@ -156,11 +201,11 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={closeMenu}
                     className={`flex items-center justify-between p-3.5 text-base font-medium tracking-tight border-b border-slate-800/60 ${
                       isActive
-                        ? "text-blue-400 bg-slate-850 font-semibold"
-                        : "text-slate-200 hover:text-white hover:bg-slate-850"
+                        ? "text-blue-400 bg-slate-800 font-semibold"
+                        : "text-slate-200 hover:text-white hover:bg-slate-800"
                     }`}
                   >
                     <span>{link.name}</span>
@@ -180,14 +225,14 @@ export function Header() {
                 variant="primary"
                 size="lg"
                 className="w-full text-center"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={closeMenu}
               >
                 Request an Assessment
               </Button>
               <div className="pt-2">
                 <Link
                   href="/contact"
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={closeMenu}
                   className="text-xs text-slate-400 hover:text-white flex items-center justify-center gap-1.5"
                 >
                   <span>Technical Enquiries & Contact</span>

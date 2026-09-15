@@ -19,7 +19,8 @@
  * =============================================================================
  */
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import { ContactFormData } from "@/types";
@@ -32,13 +33,22 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-export function AssessmentRequestForm() {
+const VALID_SERVICES = [
+  "damage-assessment",
+  "pre-purchase-inspections",
+  "aircraft-recovery",
+  "repair-coordination",
+  "modification-approvals",
+  "general-enquiry",
+];
+
+function AssessmentRequestFormInner({ initialService }: { initialService: string }) {
   const [formData, setFormData] = useState<ContactFormData>({
     fullName: "",
     companyName: "",
     email: "",
     telephone: "",
-    serviceRequired: "damage-assessment",
+    serviceRequired: initialService,
     aircraftType: "",
     aircraftRegistration: "",
     aircraftLocation: "",
@@ -485,7 +495,7 @@ export function AssessmentRequestForm() {
       {/* SUBMISSION ACTION */}
       <div className="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="text-xs text-slate-500 font-sans">
-          All incident records and technical inquiries are handled under commercial confidentiality.
+          * Required fields for technical assessment scoping.
         </div>
         <Button
           type="submit"
@@ -499,5 +509,35 @@ export function AssessmentRequestForm() {
         </Button>
       </div>
     </form>
+  );
+}
+
+function FormKeyWrapper() {
+  const searchParams = useSearchParams();
+  const serviceParam = searchParams.get("service");
+  const selectedService =
+    serviceParam && VALID_SERVICES.includes(serviceParam)
+      ? serviceParam
+      : "damage-assessment";
+
+  return (
+    <AssessmentRequestFormInner
+      key={selectedService}
+      initialService={selectedService}
+    />
+  );
+}
+
+export function AssessmentRequestForm() {
+  return (
+    <Suspense
+      fallback={
+        <div className="bg-white border border-slate-200 p-8 text-center text-sm text-slate-500 font-sans">
+          Loading assessment intake form...
+        </div>
+      }
+    >
+      <FormKeyWrapper />
+    </Suspense>
   );
 }
