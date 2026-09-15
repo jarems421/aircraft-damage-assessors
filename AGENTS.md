@@ -75,7 +75,7 @@ Do not expand this scope without client confirmation.
 
 ## Accident Investigation Language
 
-Aircraft Damage Assessors Ltd must always be positioned as an independent technical company.
+Aircraft Damage Assessors Ltd must be positioned as a technical services company. The client has explicitly instructed that "independent" must not appear in company copy; this correction supersedes earlier positioning language.
 
 Never imply that it is:
 - A government accident investigation authority
@@ -89,6 +89,8 @@ Prefer wording such as:
 > "Investigation into the potential cause of an incident or accident within the company's technical assessment scope."
 
 ## Unsupported Claims
+
+Client correction: do not use "independent", "detailed structural survey", "line-item cost estimates", "direct & latent damage", or "structural condition". Do not turn a confirmed service into unconfirmed procedures, report formats, repair-hour projections or claims-related benefits. Keep service copy in the central data files and run `node scripts/check-copy.cjs` after content changes. This regression check supplements a factual review; passing it does not validate new claims.
 
 Do not currently claim that the company provides:
 - Airworthiness Directive reviews
