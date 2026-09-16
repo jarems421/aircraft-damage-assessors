@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { COMPANY_CONFIG } from "@/data/companyConfig";
+import { DRAFT_NOTICE, type LegalDoc } from "@/data/legalContent";
 export function pageMetadata(title: string, description: string): Metadata {
   return { title, description, openGraph: { title: `${title} | ${COMPANY_CONFIG.name}`, description, siteName: COMPANY_CONFIG.name, locale: "en_GB", type: "website" } };
 }
@@ -14,6 +15,16 @@ export function PageIntro({ label, title, children }: { label: string; title: st
 export function EnquiryCTA() {
   return <section className="enquiry-cta"><div className="site-width"><div><p className="eyebrow">Your aircraft. Your enquiry.</p><h2>Let’s discuss the details.</h2></div><Link href="/contact" className="button button-light">Request an assessment <span aria-hidden="true">↗</span></Link></div></section>;
 }
-export function LegalPlaceholder({ title, description }: { title: string; description: string }) {
-  return <><PageIntro label="Website information" title={title}><p>{description}</p></PageIntro><section className="section-space site-width legal-copy"><h2>Awaiting approved content</h2><p>This page is a placeholder for client review. The final {title.toLowerCase()} will be published once the relevant details and wording have been confirmed.</p><TextLink href="/">Return to the homepage</TextLink></section></>;
+/** Renders a legal draft from src/data/legalContent.ts. The draft notice stays until the wording is approved. */
+export function LegalDocument({ document }: { document: LegalDoc }) {
+  return <><PageIntro label="Website information" title={document.title}><p>{document.intro}</p></PageIntro>
+    <section className="site-width section-space legal-doc">
+      <p className="pending-note">{DRAFT_NOTICE}</p>
+      {document.sections.map(section => <section key={section.heading}>
+        <h2>{section.heading}</h2>
+        {section.paragraphs.map(paragraph => <p key={paragraph}>{paragraph}</p>)}
+        {section.list && <ul>{section.list.map(item => <li key={item}>{item}</li>)}</ul>}
+      </section>)}
+      <p className="legal-updated">Last updated {document.updated}.</p>
+    </section></>;
 }

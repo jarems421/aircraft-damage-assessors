@@ -4,7 +4,8 @@
 
 Company statements are limited to the services and assessment scope supplied in AGENTS.md, with the latest client correction taking precedence: do not describe the company or its reporting as independent.
 
-- `src/data/companyConfig.ts`: confirmed name, description and audiences; unconfirmed contact details remain null.
+- `src/data/companyConfig.ts`: confirmed identity, contact details, service region, founding year, director, licences, aircraft scope and report turnaround (client confirmations of 16 September 2026). Anything still unconfirmed stays `null` and is not rendered.
+- `src/data/legalContent.ts`: privacy, terms and cookie drafts awaiting the client's legal adviser. Unconfirmed points are marked `[To confirm: ...]` and the draft notice stays on each page until the wording is approved.
 - `src/data/servicesData.ts`: the five confirmed services, without added procedures or deliverables.
 - `src/data/deliverablesData.ts`: the confirmed assessment scope, not an invented process sequence.
 - `src/data/assessmentZones.ts`: illustrative damage locations used only as enquiry inputs, with no area-specific claims.
@@ -14,11 +15,13 @@ Company statements are limited to the services and assessment scope supplied in 
 
 The previous site included structural surveys/condition, latent damage, line-item formats, repair-hour projections, claims-related benefits, recovery logistics, personnel assertions and an invented operational workflow. These have been removed, including from metadata and unused report/schematic components.
 
-The previous legal drafts also asserted cookie usage, an upload portal, a privacy representative and engagement terms that had not been established. The legal routes now contain clearly identified placeholders awaiting approved content.
+The previous legal drafts also asserted cookie usage, an upload portal, a privacy representative and engagement terms that had not been established. The legal routes now carry fresh drafts written against what the site actually does, each marked as a draft for legal review.
 
 ## Form behaviour
 
-The enquiry form prepares a local preview only. It does not send a request, upload files or persist entries. The action is explicitly labelled "Preview enquiry". Submission is disabled without JavaScript. Contact details, the final legal pages and a real form service remain to be supplied before launch.
+The enquiry form prepares a local preview only. It does not send a request, upload files or persist entries. The action is explicitly labelled "Preview enquiry". Submission is disabled without JavaScript.
+
+The client has asked for photo uploads with enquiries and an automatic confirmation email. Both need a server endpoint and an email service, and neither may be simulated: do not add an upload control or a confirmation message until delivery actually works. Sending enquiries to avionicsplus@gmail.com is the remaining launch blocker, together with approved legal wording.
 
 ## Search indexing
 

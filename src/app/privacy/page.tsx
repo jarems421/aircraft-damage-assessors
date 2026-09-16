@@ -1,3 +1,4 @@
-import { LegalPlaceholder, pageMetadata } from "@/components/ui/Editorial";
-export const metadata = pageMetadata("Privacy policy — draft", "Privacy policy placeholder awaiting client confirmation and legal review.");
-export default function Page() { return <LegalPlaceholder title="Privacy policy" description="Draft page · awaiting client confirmation and legal review." />; }
+import { LegalDocument, pageMetadata } from "@/components/ui/Editorial";
+import { PRIVACY_POLICY } from "@/data/legalContent";
+export const metadata = pageMetadata("Privacy policy", "How Aircraft Damage Assessors Ltd handles personal information provided through this website, by email or by telephone.");
+export default function Page() { return <LegalDocument document={PRIVACY_POLICY} />; }

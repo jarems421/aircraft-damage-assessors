@@ -99,45 +99,51 @@ Do not currently claim that the company provides:
 - Site containment
 - Evidence preservation
 - Test flights
-- Specific aircraft-category expertise
-- Specific manufacturer expertise
 - Independent repair supervision
 - Regulatory approvals
-- International coverage
+- Coverage outside the confirmed service region
 - Emergency response times
-- Specific turnaround times
 - Claim validation
 - Dispute reduction
 - Specific financial savings
 
 unless these are subsequently confirmed by the client.
 
+## Confirmed Company Information
+
+Confirmed by the client on 16 September 2026. These are the only company facts that may be published.
+They live in `src/data/companyConfig.ts`; do not restate them elsewhere as new claims or embellish them.
+
+- Business email: avionicsplus@gmail.com (also receives website enquiries)
+- Business telephone: +254 713 971 662
+- Service region: East Africa; the company travels to the aircraft's location
+- Founded: 2026
+- Director: Roger Thomson, who also handles privacy and data questions
+- Licences: aircraft engineer's licences issued in the UK, USA, Middle East and Kenya, held by the director
+- Aircraft covered: light general aviation aircraft, including Cessna, Piper, Diamond and Beechcraft
+- Report turnaround: typically five working days
+- Registered office (held for legal drafts, not published): Naivasha Airspray, Moi South Lake Road
+- No professional memberships; do not mention professional indemnity insurance
+- Do not publish a response time
+
 ## Current Unknown Information
 
 Treat the following as unknown until confirmed:
 - Company logo
-- Business email
-- Business telephone
-- Office address
-- Service region
-- Geographic coverage
-- Years of experience
-- Founder/director information
-- Team members
-- Qualifications
-- Licences
+- Public office address
+- Registered company number
+- ICO/ODPC registration
+- Director biography
+- Other team members
 - Certifications
 - Regulatory approvals
 - Professional memberships
-- Aircraft categories covered
-- Manufacturers covered
 - Previous clients
 - Partner AMOs
 - Testimonials
 - Case studies
 - Pricing
 - Response times
-- Report turnaround times
 - Real company photography
 
 Use structured placeholders where necessary.

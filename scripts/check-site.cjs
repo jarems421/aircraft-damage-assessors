@@ -67,6 +67,15 @@ const assert = require('node:assert/strict');
     await page.type('#fullName', ' amended');
     assert.equal(await page.$('.form-review'), null, 'Editing clears a stale preview');
     console.log('PASS service preselection, validation, enquiry preview and no transmission');
+    await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
+    assert.ok(await page.$('a[href="mailto:avionicsplus@gmail.com"]'), 'Contact email is published');
+    assert.ok(await page.$('a[href="tel:+254713971662"]'), 'Contact telephone is published');
+    for (const route of ['/privacy', '/terms', '/cookies']) {
+      await page.goto(base + route, { waitUntil: 'networkidle0' });
+      assert.ok(await page.$$eval('.legal-doc h2', els => els.length > 3), `${route}: legal sections`);
+      assert.match(await page.$eval('.pending-note', el => el.textContent), /Draft for review/, `${route}: draft notice`);
+    }
+    console.log('PASS published contact details and legal drafts');
     await page.setJavaScriptEnabled(false);
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('button[type="submit"]', el => el.disabled), true);

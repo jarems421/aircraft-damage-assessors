@@ -1,3 +1,4 @@
-import { LegalPlaceholder, pageMetadata } from "@/components/ui/Editorial";
-export const metadata = pageMetadata("Cookie policy — draft", "Cookie policy placeholder awaiting confirmation of the final website configuration and legal review.");
-export default function Page() { return <LegalPlaceholder title="Cookie policy" description="Draft page · awaiting confirmation of the final website configuration and legal review." />; }
+import { LegalDocument, pageMetadata } from "@/components/ui/Editorial";
+import { COOKIE_POLICY } from "@/data/legalContent";
+export const metadata = pageMetadata("Cookie policy", "This website does not use cookies, analytics or tracking technologies.");
+export default function Page() { return <LegalDocument document={COOKIE_POLICY} />; }

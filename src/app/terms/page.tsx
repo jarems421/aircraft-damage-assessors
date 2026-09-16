@@ -1,3 +1,4 @@
-import { LegalPlaceholder, pageMetadata } from "@/components/ui/Editorial";
-export const metadata = pageMetadata("Terms — draft", "Terms placeholder awaiting client confirmation and legal review.");
-export default function Page() { return <LegalPlaceholder title="Terms" description="Draft page · awaiting client confirmation and legal review." />; }
+import { LegalDocument, pageMetadata } from "@/components/ui/Editorial";
+import { TERMS } from "@/data/legalContent";
+export const metadata = pageMetadata("Terms of use", "The terms on which you may use the Aircraft Damage Assessors Ltd website.");
+export default function Page() { return <LegalDocument document={TERMS} />; }

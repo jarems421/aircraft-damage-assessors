@@ -18,7 +18,11 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         <p>Only your name, email and a brief description are required. Anything else you can share is a useful starting point.</p>
         <h3 className="ready-heading">What to have ready</h3>
         <ol className="ready-list">{READY_ITEMS.map((item, index) => <li key={item}><span className="row-number">0{index + 1}</span>{item}</li>)}</ol>
-        <div className="contact-details">{COMPANY_CONFIG.email ? <a href={`mailto:${COMPANY_CONFIG.email}`}>{COMPANY_CONFIG.email}</a> : null}{COMPANY_CONFIG.telephone ? <a href={`tel:${COMPANY_CONFIG.telephone}`}>{COMPANY_CONFIG.telephone}</a> : null}{!COMPANY_CONFIG.email && !COMPANY_CONFIG.telephone && <p>Business contact details are awaiting confirmation.</p>}</div>
+        <div className="contact-details">
+          {COMPANY_CONFIG.email && <a href={`mailto:${COMPANY_CONFIG.email}`}>{COMPANY_CONFIG.email}</a>}
+          {COMPANY_CONFIG.telephone && <a href={`tel:${COMPANY_CONFIG.telephone}`}>{COMPANY_CONFIG.telephoneDisplay ?? COMPANY_CONFIG.telephone}</a>}
+          {COMPANY_CONFIG.serviceRegion && <p>{COMPANY_CONFIG.serviceRegion}. We travel to the aircraft’s location.</p>}
+        </div>
       </aside>
       <AssessmentRequestForm key={`${initialService}-${initialAreas.join()}`} initialService={initialService} initialAreas={initialAreas} />
     </section></>;
