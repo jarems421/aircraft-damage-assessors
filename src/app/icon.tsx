@@ -1,13 +1,16 @@
 import { ImageResponse } from "next/og";
-import { BRAND } from "@/components/brand/brand";
+import { faviconDataUri } from "@/components/brand/markAsset";
 
-// Temporary monogram favicon. Replace with client branding when supplied.
-export const size = { width: 32, height: 32 };
+// Favicon: the aircraft silhouette alone, which stays readable at 16px where a monogram would not.
+export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
 export default function Icon() {
   return new ImageResponse(
-    <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center", borderRadius: 4, background: BRAND.night, color: BRAND.paper, fontSize: 15, letterSpacing: 0.5 }}>{BRAND.monogram}</div>,
+    <div style={{ display: "flex", width: "100%", height: "100%" }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={faviconDataUri()} width={64} height={64} alt="" />
+    </div>,
     size,
   );
 }

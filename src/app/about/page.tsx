@@ -7,7 +7,7 @@ export const metadata = pageMetadata("About", "Aircraft Damage Assessors Ltd is 
 const FACTS = [
   { term: "Founded", detail: String(COMPANY_CONFIG.founded) },
   { term: "Director", detail: COMPANY_PEOPLE.map(person => `${person.name}, ${person.role}`).join(", ") },
-  { term: "Licences", detail: `Aircraft engineer’s licences issued in the ${DIRECTOR_LICENCES.slice(0, -1).join(", the ")} and ${DIRECTOR_LICENCES.at(-1)}, held by the director.` },
+  { term: "Licences", detail: `Aircraft engineer’s licences issued in ${DIRECTOR_LICENCES.slice(0, -1).join(", ")} and ${DIRECTOR_LICENCES.at(-1)}, held by the director.` },
   { term: "Where we work", detail: `${COMPANY_CONFIG.serviceRegion}. We travel to the aircraft’s location.` },
   { term: "Aircraft", detail: `${AIRCRAFT_SCOPE.categories}, including ${AIRCRAFT_SCOPE.manufacturers.slice(0, -1).join(", ")} and ${AIRCRAFT_SCOPE.manufacturers.at(-1)}.` },
 ];

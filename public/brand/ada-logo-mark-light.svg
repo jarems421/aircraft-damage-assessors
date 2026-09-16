@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="Aircraft Damage Assessors Ltd">
+  <title>Aircraft Damage Assessors Ltd</title>
+  <rect width="64" height="64" rx="8" fill="#e8eeeb"/>
+  <g transform="translate(32 47) rotate(-20) scale(0.125) translate(-160 -90)">
+    <path d="M157 18 Q160 8 163 18 L174 80 293 103 293 116 173 104 167 147 202 159 202 167 160 161 118 167 118 159 153 147 147 104 27 116 27 103 146 80Z" fill="#101e28" opacity="0.22"/>
+  </g>
+  <text x="32" y="35" text-anchor="middle" fill="#101e28" font-family="Geist, Inter, 'Helvetica Neue', Arial, sans-serif" font-size="21" font-weight="700" letter-spacing="-0.3">ADA</text>
+</svg>

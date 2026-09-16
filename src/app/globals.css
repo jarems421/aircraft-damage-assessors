@@ -17,7 +17,7 @@ button:disabled { cursor: default; opacity: .45; }
 .header-inner { min-height: 100px; display: flex; align-items: center; justify-content: space-between; gap: 32px; }
 /* Temporary text wordmark and monogram: replace with client branding when supplied (see components/brand). */
 .wordmark { display: inline-flex; align-items: center; gap: 14px; flex-shrink: 0; width: fit-content; font-size: 19px; font-weight: 550; letter-spacing: -.045em; line-height: 1.15; }
-.wordmark-mark { display: grid; place-items: center; flex-shrink: 0; width: 42px; height: 42px; border-radius: 2px; background: var(--night); color: #e8eeeb; font-size: 14px; font-weight: 500; letter-spacing: .04em; }
+.wordmark > svg { flex-shrink: 0; }
 .wordmark-text > span { color: var(--muted); font-weight: 400; }
 .desktop-nav { display: flex; gap: 30px; align-items: center; }
 .desktop-nav a { min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; color: var(--muted); position: relative; }
