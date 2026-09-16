@@ -51,22 +51,29 @@ const assert = require('node:assert/strict');
     console.log('PASS mobile navigation, Escape and route selection');
     await page.goto(base + '/contact?service=pre-purchase-inspections', { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('#serviceRequired', el => el.value), 'pre-purchase-inspections');
-    await page.locator('button[type="submit"]').click();
-    assert.equal(await page.$('.form-review'), null, 'Required fields should block preview');
-    let outgoing = 0;
-    const track = request => { if (request.method() === 'POST') outgoing++; };
-    page.on('request', track);
-    await page.type('#fullName', 'Preview test');
-    await page.type('#email', 'preview@example.com');
-    await page.type('#aircraftType', 'Generic light aircraft');
-    await page.type('#incidentDescription', 'An enquiry for website testing only.');
-    await page.locator('button[type="submit"]').click();
-    await page.waitForSelector('.form-review');
-    assert.match(await page.$eval('.form-review', el => el.textContent), /Nothing has been sent/);
-    assert.equal(outgoing, 0, 'Preview must not send a request');
-    await page.type('#fullName', ' amended');
-    assert.equal(await page.$('.form-review'), null, 'Editing clears a stale preview');
-    console.log('PASS service preselection, validation, enquiry preview and no transmission');
+    const sendingEnabled = await page.$eval('.enquiry-form', form => form.getAttribute('action') === '/api/enquiry');
+    if (sendingEnabled) {
+      assert.ok(await page.$('#photos'), 'Photo upload field is present when sending is enabled');
+      assert.match(await page.$eval('button[type="submit"]', el => el.textContent), /Send enquiry/);
+      console.log('PASS service preselection and sending-enabled form configuration');
+    } else {
+      await page.locator('button[type="submit"]').click();
+      assert.equal(await page.$('.form-review'), null, 'Required fields should block preview');
+      let outgoing = 0;
+      const track = request => { if (request.method() === 'POST') outgoing++; };
+      page.on('request', track);
+      await page.type('#fullName', 'Preview test');
+      await page.type('#email', 'preview@example.com');
+      await page.type('#aircraftType', 'Generic light aircraft');
+      await page.type('#incidentDescription', 'An enquiry for website testing only.');
+      await page.locator('button[type="submit"]').click();
+      await page.waitForSelector('.form-review');
+      assert.match(await page.$eval('.form-review', el => el.textContent), /Nothing has been sent/);
+      assert.equal(outgoing, 0, 'Preview must not send a request');
+      await page.type('#fullName', ' amended');
+      assert.equal(await page.$('.form-review'), null, 'Editing clears a stale preview');
+      console.log('PASS service preselection, validation, enquiry preview and no transmission');
+    }
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
     assert.ok(await page.$('a[href="mailto:avionicsplus@gmail.com"]'), 'Contact email is published');
     assert.ok(await page.$('a[href="tel:+254713971662"]'), 'Contact telephone is published');
@@ -78,7 +85,12 @@ const assert = require('node:assert/strict');
     console.log('PASS published contact details and legal drafts');
     await page.setJavaScriptEnabled(false);
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
-    assert.equal(await page.$eval('button[type="submit"]', el => el.disabled), true);
+    if (sendingEnabled) {
+      assert.equal(await page.$eval('.enquiry-form', form => form.getAttribute('action')), '/api/enquiry');
+      assert.equal(await page.$eval('button[type="submit"]', el => el.disabled), false, 'Form remains submittable without JS');
+    } else {
+      assert.equal(await page.$eval('button[type="submit"]', el => el.disabled), true, 'Preview is disabled without JS');
+    }
     assert.deepEqual(errors, [], 'Browser errors');
     console.log('PASS no-JavaScript form protection; browser console clean');
   } finally { await browser.close(); }
