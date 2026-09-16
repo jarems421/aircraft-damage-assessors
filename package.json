@@ -9,7 +9,8 @@
     "lint": "eslint && npm run check:copy",
     "check:copy": "node scripts/check-copy.cjs",
     "test:site": "node scripts/check-site.cjs",
-    "test:aircraft": "node scripts/check-aircraft.cjs"
+    "test:aircraft": "node scripts/check-aircraft.cjs",
+    "test:enquiry": "node scripts/check-enquiry.cjs"
   },
   "dependencies": {
     "lucide-react": "^1.46.0",

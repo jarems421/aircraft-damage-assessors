@@ -29,7 +29,7 @@ export const COMPANY_CONFIG: CompanyConfig = {
 /** Confirmed people. Biographies are still to be supplied. */
 export const COMPANY_PEOPLE = [{ name: "Roger Thomson", role: "Director" }];
 /** Confirmed licences, held by the company's director. */
-export const DIRECTOR_LICENCES = ["United Kingdom", "United States", "Middle East", "Kenya"];
+export const DIRECTOR_LICENCES = ["United Kingdom", "United States", "Qatar", "Kenya"];
 /** Confirmed aircraft scope. */
 export const AIRCRAFT_SCOPE = {
   categories: "Light general aviation aircraft",

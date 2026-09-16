@@ -24,6 +24,11 @@ export const PRIVACY_POLICY: LegalDoc = {
       "Aircraft type and registration, if you provide them",
       "Where the aircraft is located, if you provide it",
       "The damaged areas you select and the description of your enquiry",
+      "Any photographs or documents you attach to your enquiry",
+    ] },
+    { heading: "What happens to your enquiry", paragraphs: [
+      "Your enquiry, and anything you attach to it, is emailed to us and is not stored on the website. Photographs are reduced in size in your browser before they are sent.",
+      "We send you an automatic email confirming that your enquiry has been received. It repeats the details you gave us, so please only attach material you are content to receive by email.",
     ] },
     { heading: "Information collected automatically", paragraphs: [
       "Our website hosting provider keeps standard server records, such as the internet address your request came from, the pages requested and the type of browser used. These are used to deliver the website and keep it secure.",
@@ -41,7 +46,8 @@ export const PRIVACY_POLICY: LegalDoc = {
     ] },
     { heading: "Where your information is held", paragraphs: [
       "Our email and website hosting providers may store information on servers outside Kenya. Where that happens, we take reasonable steps to ensure it remains protected.",
-      "[To confirm: the email and hosting providers to be named here once the enquiry form is connected.]",
+      "The website is hosted by Vercel and enquiry emails are delivered through Resend. Enquiries are then held in the company's email account.",
+      "[To confirm once launched: whether these remain the providers used.]",
     ] },
     { heading: "How long we keep it", paragraphs: [
       "We keep enquiries for as long as needed to deal with the enquiry and any work that follows, and afterwards only where we must for legal, tax or record-keeping reasons.",

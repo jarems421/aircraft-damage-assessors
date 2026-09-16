@@ -19,9 +19,12 @@ The previous legal drafts also asserted cookie usage, an upload portal, a privac
 
 ## Form behaviour
 
-The enquiry form prepares a local preview only. It does not send a request, upload files or persist entries. The action is explicitly labelled "Preview enquiry". Submission is disabled without JavaScript.
+The form has two honest states, decided by whether `RESEND_API_KEY` is configured:
 
-The client has asked for photo uploads with enquiries and an automatic confirmation email. Both need a server endpoint and an email service, and neither may be simulated: do not add an upload control or a confirmation message until delivery actually works. Sending enquiries to avionicsplus@gmail.com is the remaining launch blocker, together with approved legal wording.
+- **Configured:** the enquiry is emailed to the company with photo attachments, and the visitor receives an automatic confirmation. Server-side validation, a honeypot and rate limiting apply; see `docs/ENQUIRY-SETUP.md`.
+- **Not configured (current live state):** the form previews an enquiry locally, sends nothing, and tells visitors to email the company directly.
+
+Never simulate delivery. If sending is not configured, the form must continue to say so.
 
 ## Search indexing
 
