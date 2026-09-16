@@ -68,7 +68,16 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
   const server = spawn(`npx next start -p ${SITE_PORT}`, {
     shell: true,
     stdio: 'ignore',
-    env: { ...process.env, RESEND_API_KEY: 'test-key', RESEND_API_BASE: `http://localhost:${MOCK_PORT}`, ENQUIRY_TO: 'company@example.com', ENQUIRY_FROM: 'enquiries@example.com' },
+    // Values are deliberately polluted with a byte-order mark, a newline and stray spaces: pasting into
+    // a dashboard or piping from PowerShell can add them, and unsanitised they throw when set as an
+    // HTTP header. The assertions below require the server to have cleaned them.
+    env: {
+      ...process.env,
+      RESEND_API_KEY: '﻿test-key\n',
+      RESEND_API_BASE: `﻿http://localhost:${MOCK_PORT} `,
+      ENQUIRY_TO: ' company@example.com\n',
+      ENQUIRY_FROM: '﻿enquiries@example.com ',
+    },
   });
   let browser;
   try {
@@ -98,8 +107,9 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     assert.equal(result.ok, true);
     assert.equal(sent.length, 2, 'Company email and confirmation sent');
     const [company, confirmation] = sent;
-    assert.equal(company.auth, 'Bearer test-key');
-    assert.deepEqual(company.to, ['company@example.com']);
+    assert.equal(company.auth, 'Bearer test-key', 'Byte-order mark and newline stripped from the API key');
+    assert.deepEqual(company.to, ['company@example.com'], 'Whitespace stripped from the recipient');
+    assert.equal(company.from, 'Aircraft Damage Assessors Ltd <enquiries@example.com>', 'Sender cleaned');
     assert.equal(company.reply_to, 'enquirer@example.com');
     assert.match(company.subject, /Aircraft damage assessment — Test Enquirer/);
     assert.match(company.text, /Wings, Landing gear/);
