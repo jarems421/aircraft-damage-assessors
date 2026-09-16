@@ -25,6 +25,28 @@ See `.env.example`. Never commit real keys.
 | `ENQUIRY_FROM` | Recommended | Verified sender address. Needed for confirmations to reach visitors. |
 | `RESEND_API_BASE` | No | Test only; `scripts/check-enquiry.cjs` points it at a local stand-in. |
 
+## Current live configuration (16 September 2026)
+
+Sending is **switched on** in Production and Preview, and was verified end to end with live test
+enquiries from both a local build and the deployed site.
+
+Two things remain temporary until a domain is verified in Resend:
+
+- **Enquiries go to `jarems421@gmail.com`, not to the company.** With no verified domain, Resend only
+  delivers to the account owner's address; sending to avionicsplus@gmail.com fails with a 403. Forward
+  enquiries manually until this changes, and treat it as a priority: the published privacy policy tells
+  visitors their enquiry goes to the company.
+- **Visitor confirmation emails only reach the account owner.** Everyone else's confirmation is refused
+  by Resend. The site never claims otherwise — it says "Your enquiry has been sent" when the
+  confirmation could not be delivered.
+
+**Also outstanding: rotate `RESEND_API_KEY`.** The current key was shared in a chat transcript. Create a
+replacement at resend.com, update it in Vercel and in `.env.local`, and revoke the old one.
+
+When setting variables with the Vercel CLI, pipe values from a shell that does not add a byte-order mark
+(bash `printf`, not PowerShell). A BOM in `RESEND_API_KEY` produces an invalid `Authorization` header and
+every enquiry fails with a 500.
+
 ### Steps
 
 1. Create a Resend account and an API key; put it in `RESEND_API_KEY`.
