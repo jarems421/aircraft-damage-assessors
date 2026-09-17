@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   title: { default: COMPANY_CONFIG.name, template: `%s | ${COMPANY_CONFIG.name}` },
   description: COMPANY_CONFIG.descriptor,
   robots: SEARCH_INDEXING_ENABLED ? { index: true, follow: true } : { index: false, follow: false },
+  // Each page declares itself canonical on the custom domain, so copies served from deployment URLs
+  // consolidate onto it rather than competing with it.
+  alternates: { canonical: "./" },
   openGraph: { title: COMPANY_CONFIG.name, description: COMPANY_CONFIG.descriptor, siteName: COMPANY_CONFIG.name, locale: "en_GB", type: "website" },
   twitter: { card: "summary_large_image" },
 };
