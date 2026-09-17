@@ -158,8 +158,8 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
     if (settled) { yaw = targetYaw; pitch = targetPitch; }
     if (spin > 0.0015) {
       if (propeller) propeller.rotation.z += spin;
-      // Holding the model keeps the blades turning; letting go winds them down.
-      spin *= drag ? 0.995 : 0.94;
+      // Holding the model keeps the blades turning; letting go winds them down over a second or so.
+      spin *= drag ? 0.997 : 0.962;
     } else {
       spin = 0;
     }
@@ -187,7 +187,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
     targetYaw = drag.yaw + (e.clientX - drag.x) * 0.008;
     // On touch, vertical gestures remain available to scroll the page.
     if (e.pointerType !== "touch") targetPitch = THREE.MathUtils.clamp(drag.pitch + (e.clientY - drag.y) * 0.006, MIN_PITCH, MAX_PITCH);
-    spinUp(0.12);
+    spinUp(0.24);
     update();
   }
   function up(e: PointerEvent) { if (drag?.id === e.pointerId) drag = null; }
@@ -204,6 +204,8 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
     update();
   }
   return {
+    /** A short turn of the blades, so choosing a damage area gets a response from the model. */
+    nudge() { spinUp(0.26); },
     highlight(zones: string[]) {
       zoneMaterials.forEach((materials, zone) => {
         const active = zones.includes(zone);
@@ -226,7 +228,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
         targetYaw = DEFAULT_YAW + Math.round((targetYaw - DEFAULT_YAW) / (Math.PI * 2)) * Math.PI * 2;
         targetPitch = DEFAULT_PITCH;
       }
-      spinUp(0.2);
+      spinUp(0.34);
       update();
     },
     dispose() {

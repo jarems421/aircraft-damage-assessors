@@ -144,6 +144,18 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
     const resting = await view.screenshot();
     await new Promise(resolve => setTimeout(resolve, 400));
     assert.equal(Buffer.from(resting).equals(Buffer.from(await view.screenshot())), true, 'Scene stops rendering once the blades wind down');
+    // Choosing a damage area also turns the blades. The tint it applies is static, so any change
+    // between two frames taken afterwards is the propeller rather than the highlight.
+    await page.goto(base + '/damage-assessment', { waitUntil: 'networkidle0' });
+    await ready(page);
+    const hidden = await page.addStyleTag({ content: '[data-status] > button { visibility: hidden !important; }' });
+    await click(page, 'label:has(input[name="area"][value="wing"])');
+    await new Promise(resolve => setTimeout(resolve, 260));
+    const afterPick = await (await page.$('[data-status]')).screenshot();
+    await new Promise(resolve => setTimeout(resolve, 90));
+    assert.equal(Buffer.from(afterPick).equals(Buffer.from(await (await page.$('[data-status]')).screenshot())), false, 'Choosing an area turns the blades');
+    await hidden.evaluate(el => el.remove());
+
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);
     assert.equal(await stillAfterCamera(page), true, 'The homepage model has no propeller spin');

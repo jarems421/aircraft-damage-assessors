@@ -32,7 +32,10 @@ export function AircraftExplorer({ variant = "hero" }: { variant?: "hero" | "pag
   const [attempt, setAttempt] = useState(0);
   const page = variant === "page";
   const deferred = stillPreferred && attempt === 0;
-  const toggle = (zoneId: string) => setSelected(current => current.includes(zoneId) ? current.filter(item => item !== zoneId) : [...current, zoneId]);
+  const toggle = (zoneId: string) => {
+    scene.current?.nudge();
+    setSelected(current => current.includes(zoneId) ? current.filter(item => item !== zoneId) : [...current, zoneId]);
+  };
   useEffect(() => {
     const element = host.current;
     if (!element || deferred) return;
