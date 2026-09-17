@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { AircraftExplorer } from "@/components/aircraft/AircraftExplorer";
 import { EnquiryCTA, TextLink, pageMetadata } from "@/components/ui/Editorial";
-import { COMPANY_CONFIG } from "@/data/companyConfig";
+import { COMPANY_CONFIG, HERO_FACTS } from "@/data/companyConfig";
 import { ASSESSMENT_SCOPE } from "@/data/deliverablesData";
 import { SERVICES_DATA } from "@/data/servicesData";
 export const metadata = pageMetadata("Aircraft damage assessment", "Aircraft damage assessment, detailed damage reports, parts estimates and repairability assessment for insurers, brokers, aircraft owners and operators in East Africa.");
 export default function HomePage() {
   return <>
     <section className="home-hero"><div className="site-width hero-grid">
-      <div className="hero-copy"><p className="eyebrow">Aircraft Damage Assessors Ltd</p><h1>Aircraft damage.<br /><em>A clearer picture.</em></h1><p className="hero-description">Aircraft damage assessment and detailed reporting for insurers, brokers, aircraft owners and operators across {COMPANY_CONFIG.serviceRegion}.</p><Link href="/contact" className="button button-light">Request an assessment <span aria-hidden="true">↗</span></Link><TextLink href="/damage-assessment">Explore the assessment scope</TextLink></div>
+      <div className="hero-copy"><p className="eyebrow">Aircraft Damage Assessors Ltd</p><h1>Aircraft damage.<br /><em>A clearer picture.</em></h1><p className="hero-description">Aircraft damage assessment and detailed reporting for insurers, brokers, aircraft owners and operators across {COMPANY_CONFIG.serviceRegion}.</p><Link href="/contact" className="button button-light">Request an assessment <span aria-hidden="true">↗</span></Link><TextLink href="/damage-assessment">Explore the assessment scope</TextLink>
+        <dl className="hero-facts">{HERO_FACTS.map(fact => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.detail}</dd></div>)}</dl></div>
       <AircraftExplorer />
     </div><div className="site-width hero-baseline"><span>Aircraft damage assessment & aviation technical services · {COMPANY_CONFIG.serviceRegion}</span><span>Explore below <span aria-hidden="true">↓</span></span></div></section>
     <section className="site-width section-space assessment-intro"><div><p className="eyebrow">Damage assessment</p><h2>From damage<br />to detail.</h2><TextLink href="/damage-assessment">What the assessment includes</TextLink></div><div><p className="section-lead">Understand the damage, the parts required and whether the aircraft is believed to be repairable.</p><div className="scope-preview">{ASSESSMENT_SCOPE.slice(0, 4).map(item => <div key={item.title}><h3>{item.title}</h3><p>{item.description}</p></div>)}</div></div></section>

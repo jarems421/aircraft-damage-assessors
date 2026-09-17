@@ -123,10 +123,35 @@ h3 { font-weight: 450; letter-spacing: -.025em; }
 .contact-details p { font-size: 12px !important; }
 .enquiry-column,.enquiry-form { min-width: 0; }
 .field-hint { font-size: 12px; color: var(--muted); line-height: 1.7; }
-.form-field input[type="file"] { padding: 10px; font-size: 13px; background: var(--wash); }
-.file-list { list-style: none; margin: 4px 0 0; padding: 0; font-size: 13px; color: var(--muted); }
-.file-list li { display: flex; justify-content: space-between; gap: 16px; padding-block: 7px; border-bottom: 1px solid var(--line); }
-.file-list span:first-child { overflow-wrap: anywhere; }
+.upload-drop { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 108px; padding: 18px; text-align: center; background: #fcfcf9; border: 1px dashed #b7c0bc; border-radius: 3px; transition: border-color .15s, background .15s; }
+.upload-drop:hover { border-color: #7f8f97; background: #fff; }
+.upload-drop input[type="file"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+.upload-drop:has(input:focus-visible) { outline: 2px solid #638da4; outline-offset: 2px; }
+.upload-action { font-size: 14px; font-weight: 500; }
+.upload-hint { font-size: 12px; color: var(--muted); }
+.file-list { list-style: none; margin: 10px 0 0; padding: 0; font-size: 13px; }
+.file-list li { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: 16px; padding-block: 9px; border-bottom: 1px solid var(--line); }
+.file-name { overflow-wrap: anywhere; }
+.file-size { color: var(--muted); font-family: var(--font-geist-mono), monospace; font-size: 11px; }
+.file-remove { min-height: 34px; padding: 0 4px; font-size: 12px; color: var(--muted); background: none; border: 0; text-decoration: underline; text-underline-offset: 3px; }
+.file-remove:hover { color: var(--ink); }
+/* Hero credentials: confirmed facts only (see HERO_FACTS). */
+.hero-facts { margin: 40px 0 0; max-width: 380px; }
+.hero-facts > div { display: grid; grid-template-columns: 82px 1fr; gap: 18px; padding-block: 12px; border-top: 1px solid #ffffff1f; }
+.hero-facts dt { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #8fa5b1; padding-top: 3px; }
+.hero-facts dd { margin: 0; font-size: 13px; line-height: 1.7; color: #c2ced5; }
+/* Phone-width quick contact; hidden on larger screens where the header carries the enquiry link. */
+.mobile-contact-bar { display: none; }
+@media(max-width: 600px) {
+  .mobile-contact-bar { position: fixed; inset: auto 0 0; z-index: 40; display: grid; grid-template-columns: 1fr 1fr 1.5fr; align-items: stretch; background: var(--paper); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  .mobile-contact-bar a { display: flex; align-items: center; justify-content: center; min-height: 56px; padding: 8px; font-size: 13px; font-weight: 500; text-align: center; border-left: 1px solid var(--line); }
+  .mobile-contact-bar a:first-child { border-left: 0; }
+  .mobile-contact-bar .bar-enquire { background: var(--night); color: #eef2ee; }
+  /* Room below the page so the fixed bar never keeps content out of reach. */
+  body { padding-bottom: 60px; }
+  .site-footer { padding-bottom: 20px; }
+  html { scroll-padding-bottom: 72px; }
+}
 .form-status,.form-error { padding: 14px 18px; margin-bottom: 26px; font-size: 14px; line-height: 1.7; border-left: 2px solid; }
 .form-status { border-color: #4a7a5e; background: #eef3ee; }
 .form-error { border-color: #9a5b4b; background: #f6efec; margin-block: 24px 0; }

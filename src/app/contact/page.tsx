@@ -34,6 +34,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         <div className="contact-details">
           {COMPANY_CONFIG.email && <a href={`mailto:${COMPANY_CONFIG.email}`}>{COMPANY_CONFIG.email}</a>}
           {COMPANY_CONFIG.telephone && <a href={`tel:${COMPANY_CONFIG.telephone}`}>{COMPANY_CONFIG.telephoneDisplay ?? COMPANY_CONFIG.telephone}</a>}
+          {COMPANY_CONFIG.whatsapp && <a href={`https://wa.me/${COMPANY_CONFIG.whatsapp}`} target="_blank" rel="noopener noreferrer">Message on WhatsApp <span aria-hidden="true">↗</span></a>}
           {COMPANY_CONFIG.serviceRegion && <p>{COMPANY_CONFIG.serviceRegion}. We travel to the aircraft’s location.</p>}
         </div>
       </aside>

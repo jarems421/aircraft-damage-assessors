@@ -10,6 +10,9 @@ const ready = async page => {
   const load = await page.$('::-p-text(View in 3D)');
   if (load) await load.click();
   await page.waitForSelector('[data-status="ready"]', { timeout: 30000 });
+  // Centre the model as a visitor would, so markers near its lower edge are not behind the
+  // phone-width contact bar fixed to the bottom of the screen.
+  await page.$eval('[data-status]', el => el.scrollIntoView({ block: 'center', behavior: 'instant' }));
 };
 const noOverflow = page => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth);
 const pressed = (page, label) => page.$eval(`button[aria-label="Select ${label}"]`, el => el.getAttribute('aria-pressed'));

@@ -114,9 +114,18 @@ export function AssessmentRequestForm({ initialService = "damage-assessment", in
       <div className="form-field form-wide"><label htmlFor="incidentDescription">What would you like to discuss? *</label><textarea id="incidentDescription" name="incidentDescription" required minLength={10} maxLength={FIELD_LIMITS.incidentDescription} rows={5} /></div>
       {sendingEnabled && <div className="form-field form-wide">
         <label htmlFor="photos">Photos of the damage (optional)</label>
-        <input id="photos" name="photos" type="file" multiple accept={ACCEPT_ATTRIBUTE} aria-describedby="photos-hint" onChange={event => setFiles(Array.from(event.target.files ?? []).slice(0, MAX_FILES))} />
-        <p id="photos-hint" className="field-hint">Up to {MAX_FILES} photos or PDFs. Large photos are reduced automatically before sending.</p>
-        {files.length > 0 && <ul className="file-list">{files.map(file => <li key={`${file.name}-${file.size}`}><span>{file.name}</span><span>{formatBytes(file.size)}</span></li>)}</ul>}
+        {/* The file input covers the drop area, so choosing and dragging both work without JavaScript. */}
+        <div className="upload-drop">
+          <input id="photos" name="photos" type="file" multiple accept={ACCEPT_ATTRIBUTE} aria-describedby="photos-hint" onChange={event => setFiles(Array.from(event.target.files ?? []).slice(0, MAX_FILES))} />
+          <span className="upload-action" aria-hidden="true">Choose photos</span>
+          <span className="upload-hint" aria-hidden="true">or drag them here</span>
+        </div>
+        <p id="photos-hint" className="field-hint">Up to {MAX_FILES} photos or PDFs, {formatBytes(MAX_TOTAL_BYTES)} in total. Large photos are reduced automatically before sending.</p>
+        {files.length > 0 && <ul className="file-list">{files.map(file => <li key={`${file.name}-${file.size}`}>
+          <span className="file-name">{file.name}</span>
+          <span className="file-size">{formatBytes(file.size)}</span>
+          <button type="button" className="file-remove" onClick={() => setFiles(current => current.filter(item => item !== file))} aria-label={`Remove ${file.name}`}>Remove</button>
+        </li>)}</ul>}
       </div>}
     </div>
     <p className="visually-hidden" aria-hidden="true"><label htmlFor={HONEYPOT_FIELD}>Leave this field empty</label><input id={HONEYPOT_FIELD} name={HONEYPOT_FIELD} tabIndex={-1} autoComplete="off" /></p>

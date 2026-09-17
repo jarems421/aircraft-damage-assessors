@@ -89,6 +89,28 @@ const assert = require('node:assert/strict');
       assert.match(await page.$eval('.pending-note', el => el.textContent), /Draft for review/, `${route}: draft notice`);
     }
     console.log('PASS published contact details and legal drafts');
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    assert.equal(await page.$$eval('.hero-facts > div', els => els.length), 3, 'Hero credentials');
+    assert.match(await page.$eval('.hero-facts', el => el.innerText), /Qatar[\s\S]*East Africa[\s\S]*five working days/, 'Hero facts match the confirmed information');
+    const structured = JSON.parse(await page.$eval('script[type="application/ld+json"]', el => el.textContent));
+    assert.equal(structured.name, 'Aircraft Damage Assessors Ltd');
+    assert.equal(structured.telephone, '+254713971662');
+    assert.equal(structured.areaServed.name, 'East Africa');
+    assert.equal(structured.hasOfferCatalog.itemListElement.length, 5, 'All five services described for search engines');
+    assert.ok(await page.$('a[href="https://wa.me/254713971662"]'), 'WhatsApp link');
+    await page.setViewport({ width: 390, height: 900, isMobile: true, hasTouch: true });
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    assert.equal(await page.$eval('.mobile-contact-bar', el => getComputedStyle(el).display), 'grid', 'Quick contact bar shows on phones');
+    assert.equal(await page.$eval('.mobile-contact-bar a[href^="tel:"]', el => el.getBoundingClientRect().height >= 44), true, 'Touch target size');
+    await page.setViewport({ width: 1440, height: 1000 });
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    assert.equal(await page.$eval('.mobile-contact-bar', el => getComputedStyle(el).display), 'none', 'Quick contact bar hidden on desktop');
+    if (sendingEnabled) {
+      await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
+      assert.ok(await page.$('.upload-drop input[type="file"]'), 'Styled upload area wraps the file input');
+      assert.match(await page.$eval('.upload-drop', el => el.innerText), /Choose photos/);
+    }
+    console.log('PASS hero credentials, search data, WhatsApp, quick contact bar and upload control');
     await page.setJavaScriptEnabled(false);
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
     if (sendingEnabled) {
