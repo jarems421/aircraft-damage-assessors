@@ -49,7 +49,7 @@ export function AircraftExplorer({ variant = "hero" }: { variant?: "hero" | "pag
       timeout = window.setTimeout(() => { if (!cancelled) setStatus("fallback"); }, 15000);
       import("./aircraftScene").then(({ mountAircraftScene }) => {
         if (cancelled) return;
-        instance = mountAircraftScene(element, markers.current, () => setStatus("fallback"), { propeller: page });
+        instance = mountAircraftScene(element, markers.current, () => setStatus("fallback"), { propeller: true });
         scene.current = instance;
         setStatus("ready");
       }).catch(() => { if (!cancelled) setStatus("fallback"); }).finally(() => window.clearTimeout(timeout));

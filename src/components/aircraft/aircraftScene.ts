@@ -9,8 +9,7 @@ export type SceneAction = "left" | "right" | "top" | "reset";
 const HIGHLIGHT = 0x2f7098;
 const DEFAULT_YAW = -0.65, DEFAULT_PITCH = 0.3, MIN_PITCH = -0.15, MAX_PITCH = 1.35, TOP_PITCH = 1.3;
 
-/** `propeller` turns the blades on input. Used on the damage assessment page, where the model is the
- * subject; the homepage hero leaves it still so the drifting sky behind it carries the movement. */
+/** `propeller` turns the blades on input, on both the homepage and the damage assessment page. */
 export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElement[], onFailure: () => void, options: { propeller?: boolean } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));

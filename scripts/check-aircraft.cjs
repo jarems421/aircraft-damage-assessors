@@ -121,9 +121,8 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
     console.log('PASS multiple damage areas carried into the enquiry form');
 
     /**
-     * The propeller belongs to the damage assessment model; the homepage hero leaves it still so the
-     * drifting sky carries the movement. Comparing frames after the camera has settled isolates the
-     * blades: any remaining change is the propeller, and no change means nothing is animating.
+     * Comparing frames after the camera has settled isolates the blades: any remaining change is the
+     * propeller, and no change means nothing is animating.
      */
     const stillAfterCamera = async page => {
       const view = await page.$('[data-status]');
@@ -158,8 +157,8 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
 
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);
-    assert.equal(await stillAfterCamera(page), true, 'The homepage model has no propeller spin');
-    console.log('PASS propeller turns on the damage assessment model only, and everything settles to a stop');
+    assert.equal(await stillAfterCamera(page), false, 'The homepage propeller turns too');
+    console.log('PASS propeller turns on both models, and everything settles to a stop');
 
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);
