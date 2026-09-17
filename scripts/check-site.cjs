@@ -51,6 +51,12 @@ const assert = require('node:assert/strict');
     console.log('PASS mobile navigation, Escape and route selection');
     await page.goto(base + '/contact?service=pre-purchase-inspections', { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('#serviceRequired', el => el.value), 'pre-purchase-inspections');
+    assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /pre-purchase inspection/i, 'Heading follows the chosen service');
+    await page.goto(base + '/contact?service=aircraft-recovery', { waitUntil: 'networkidle0' });
+    assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /aircraft recovery/i);
+    await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
+    assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /Request an assessment/, 'Default heading without a service');
+    await page.goto(base + '/contact?service=pre-purchase-inspections', { waitUntil: 'networkidle0' });
     const sendingEnabled = await page.$eval('.enquiry-form', form => form.getAttribute('action') === '/api/enquiry');
     if (sendingEnabled) {
       assert.ok(await page.$('#photos'), 'Photo upload field is present when sending is enabled');
