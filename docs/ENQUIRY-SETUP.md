@@ -25,23 +25,27 @@ See `.env.example`. Never commit real keys.
 | `ENQUIRY_FROM` | Recommended | Verified sender address. Needed for confirmations to reach visitors. |
 | `RESEND_API_BASE` | No | Test only; `scripts/check-enquiry.cjs` points it at a local stand-in. |
 
-## Current live configuration (16 September 2026)
+## Current live configuration (17 September 2026)
 
-Sending is **switched on** in Production and Preview, and was verified end to end with live test
-enquiries from both a local build and the deployed site.
+Sending is **switched on and fully configured** in Production and Preview:
 
-Two things remain temporary until a domain is verified in Resend:
+| Variable | Value |
+| --- | --- |
+| `RESEND_API_KEY` | set (send-only key) |
+| `ENQUIRY_TO` | `avionicsplus@gmail.com` |
+| `ENQUIRY_FROM` | `enquiries@aircraftdamageassessors.com` |
 
-- **Enquiries go to `jarems421@gmail.com`, not to the company.** With no verified domain, Resend only
-  delivers to the account owner's address; sending to avionicsplus@gmail.com fails with a 403. Forward
-  enquiries manually until this changes, and treat it as a priority: the published privacy policy tells
-  visitors their enquiry goes to the company.
-- **Visitor confirmation emails only reach the account owner.** Everyone else's confirmation is refused
-  by Resend. The site never claims otherwise — it says "Your enquiry has been sent" when the
-  confirmation could not be delivered.
+`aircraftdamageassessors.com` is verified in Resend (DKIM, SPF and DMARC records live at Namecheap) and
+attached to the Vercel project, with the bare domain redirecting to `www`. Verified end to end on
+17 September 2026: an enquiry reached the company inbox and a confirmation reached an address other than
+the Resend account owner's, which only works once a domain is verified.
 
-**Also outstanding: rotate `RESEND_API_KEY`.** The current key was shared in a chat transcript. Create a
+**Outstanding: rotate `RESEND_API_KEY`.** The current key was shared in a chat transcript. Create a
 replacement at resend.com, update it in Vercel and in `.env.local`, and revoke the old one.
+
+**Note on `enquiries@aircraftdamageassessors.com`:** it sends but does not receive. Mail sent *to* it goes
+nowhere until email hosting is added (Namecheap Private Email, Google Workspace or similar). Replies to an
+enquiry still work, because each enquiry carries the visitor's address as reply-to.
 
 When setting variables with the Vercel CLI, pipe values from a shell that does not add a byte-order mark
 (bash `printf`, not PowerShell). A BOM in `RESEND_API_KEY` produces an invalid `Authorization` header and
