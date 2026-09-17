@@ -7,5 +7,5 @@ export default function DamageAssessmentPage() {
   return <><PageIntro label="Aircraft damage assessment" title="The detail behind the damage."><p>Comprehensive aircraft damage assessment, a detailed damage report and an assessment of repairability, for {AIRCRAFT_SCOPE.categories.toLowerCase()} across {COMPANY_CONFIG.serviceRegion}.</p></PageIntro>
     <section className="site-width section-space scope-section"><div className="section-top"><h2>What the assessment includes.</h2><p>For aircraft insurers, brokers,<br />owners and operators.</p></div><div className="scope-table">{ASSESSMENT_SCOPE.map((item, index) => <div key={item.title}><span className="row-number">0{index + 1}</span><h3>{item.title}</h3><p>{item.description}</p></div>)}</div>
       <p className="scope-note">Reports are typically provided within {COMPANY_CONFIG.reportTurnaround}. Investigation into potential cause forms part of the company’s technical assessment scope; it does not represent a statutory accident investigation.</p></section>
-    <section className="damage-locator section-space"><div className="site-width"><AircraftExplorer variant="full" /></div></section></>;
+    <section className="damage-locator section-space"><div className="site-width"><AircraftExplorer variant="page" /></div></section></>;
 }

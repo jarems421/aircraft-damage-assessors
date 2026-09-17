@@ -112,7 +112,8 @@ const assert = require('node:assert/strict');
     }
     console.log('PASS hero credentials, search data, WhatsApp, quick contact bar and upload control');
     await page.goto(base, { waitUntil: 'networkidle0' });
-    assert.equal(await page.$$eval('.hero-sky svg', els => els.length), 18, 'Drifting hero planes');
+    assert.equal(await page.$$eval('.hero-sky svg', els => els.length), 28, 'Drifting hero planes');
+    assert.equal(await page.$$eval('.hero-sky svg', els => new Set(els.map(el => getComputedStyle(el).transform.split(',').slice(0, 4).join(','))).size), 1, 'Every plane holds the same heading');
     assert.equal(await page.$eval('.hero-sky', el => el.getAttribute('aria-hidden')), 'true', 'Decoration hidden from screen readers');
     assert.equal(await page.$eval('.hero-sky', el => getComputedStyle(el).pointerEvents), 'none', 'Decoration never blocks clicks');
     await page.waitForFunction(() => document.querySelector('.hero-sky')?.dataset.ready === 'true');
