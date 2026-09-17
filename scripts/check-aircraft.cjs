@@ -120,21 +120,34 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
     assert.equal(await page.$eval('#serviceRequired', el => el.value), 'damage-assessment');
     console.log('PASS multiple damage areas carried into the enquiry form');
 
+    /**
+     * The propeller belongs to the damage assessment model; the homepage hero leaves it still so the
+     * drifting sky carries the movement. Comparing frames after the camera has settled isolates the
+     * blades: any remaining change is the propeller, and no change means nothing is animating.
+     */
+    const stillAfterCamera = async page => {
+      const view = await page.$('[data-status]');
+      const hideMarkers = await page.addStyleTag({ content: '[data-status] > button { visibility: hidden !important; }' });
+      await click(page, 'button[aria-label="Rotate right"]');
+      await new Promise(resolve => setTimeout(resolve, 450));
+      const first = await view.screenshot();
+      await new Promise(resolve => setTimeout(resolve, 90));
+      const second = await view.screenshot();
+      await hideMarkers.evaluate(el => el.remove());
+      return Buffer.from(first).equals(Buffer.from(second));
+    };
+    await page.goto(base + '/damage-assessment', { waitUntil: 'networkidle0' });
+    await ready(page);
+    assert.equal(await stillAfterCamera(page), false, 'Propeller keeps turning after the camera settles');
+    await settle(); await settle();
+    const view = await page.$('[data-status]');
+    const resting = await view.screenshot();
+    await new Promise(resolve => setTimeout(resolve, 400));
+    assert.equal(Buffer.from(resting).equals(Buffer.from(await view.screenshot())), true, 'Scene stops rendering once the blades wind down');
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);
-    const view = await page.$('[data-status]');
-    const hideOverlay = await page.addStyleTag({ content: '[data-status] > button,[data-status] > div { visibility: hidden !important; }' });
-    await settle();
-    await page.locator('button[aria-label="Rotate right"]').click();
-    const turning = await view.screenshot();
-    await new Promise(resolve => setTimeout(resolve, 70));
-    assert.equal(Buffer.from(turning).equals(Buffer.from(await view.screenshot())), false, 'Propeller turns while the model moves');
-    await settle(); await settle();
-    const still = await view.screenshot();
-    await new Promise(resolve => setTimeout(resolve, 400));
-    assert.equal(Buffer.from(still).equals(Buffer.from(await view.screenshot())), true, 'Scene stops rendering once it settles');
-    await hideOverlay.evaluate(el => el.remove());
-    console.log('PASS propeller turns on input and the scene settles to a stop');
+    assert.equal(await stillAfterCamera(page), true, 'The homepage model has no propeller spin');
+    console.log('PASS propeller turns on the damage assessment model only, and everything settles to a stop');
 
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);

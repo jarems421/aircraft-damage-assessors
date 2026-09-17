@@ -9,7 +9,9 @@ export type SceneAction = "left" | "right" | "top" | "reset";
 const HIGHLIGHT = 0x2f7098;
 const DEFAULT_YAW = -0.65, DEFAULT_PITCH = 0.3, MIN_PITCH = -0.15, MAX_PITCH = 1.35, TOP_PITCH = 1.3;
 
-export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElement[], onFailure: () => void) {
+/** `propeller` turns the blades on input. Used on the damage assessment page, where the model is the
+ * subject; the homepage hero leaves it still so the drifting sky behind it carries the movement. */
+export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElement[], onFailure: () => void, options: { propeller?: boolean } = {}) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setClearColor(0x101e28, 0);
@@ -143,7 +145,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
   const propeller = aircraft.getObjectByName("propeller");
   let spin = 0;
   function spinUp(amount: number) {
-    if (reducedMotion.matches) return;
+    if (!options.propeller || reducedMotion.matches) return;
     spin = Math.min(0.55, Math.max(spin, amount));
     update();
   }
@@ -198,7 +200,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
   if (!reducedMotion.matches) {
     yaw = DEFAULT_YAW - 0.8;
     pitch = DEFAULT_PITCH + 0.16;
-    spin = 0.5;
+    if (options.propeller) spin = 0.5;
     update();
   }
   return {

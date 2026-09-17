@@ -111,6 +111,17 @@ const assert = require('node:assert/strict');
       assert.match(await page.$eval('.upload-drop', el => el.innerText), /Choose photos/);
     }
     console.log('PASS hero credentials, search data, WhatsApp, quick contact bar and upload control');
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    assert.equal(await page.$$eval('.hero-sky svg', els => els.length), 18, 'Drifting hero planes');
+    assert.equal(await page.$eval('.hero-sky', el => el.getAttribute('aria-hidden')), 'true', 'Decoration hidden from screen readers');
+    assert.equal(await page.$eval('.hero-sky', el => getComputedStyle(el).pointerEvents), 'none', 'Decoration never blocks clicks');
+    await page.waitForFunction(() => document.querySelector('.hero-sky')?.dataset.ready === 'true');
+    const restingSky = await page.$eval('.hero-sky svg', el => el.getBoundingClientRect().top);
+    await page.evaluate(() => window.scrollTo({ top: 400, behavior: 'instant' }));
+    await new Promise(resolve => setTimeout(resolve, 200));
+    const scrolledSky = await page.$eval('.hero-sky svg', el => el.getBoundingClientRect().top);
+    assert.notEqual(Math.round(restingSky - scrolledSky), 400, 'Planes drift at their own pace as the page scrolls');
+    console.log('PASS hero sky planes: decorative, scroll-driven, out of the way');
     await page.setJavaScriptEnabled(false);
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
     if (sendingEnabled) {

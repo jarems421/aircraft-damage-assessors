@@ -42,7 +42,7 @@ export function AircraftExplorer({ variant = "compact" }: { variant?: "compact" 
       timeout = window.setTimeout(() => { if (!cancelled) setStatus("fallback"); }, 15000);
       import("./aircraftScene").then(({ mountAircraftScene }) => {
         if (cancelled) return;
-        instance = mountAircraftScene(element, markers.current, () => setStatus("fallback"));
+        instance = mountAircraftScene(element, markers.current, () => setStatus("fallback"), { propeller: full });
         scene.current = instance;
         setStatus("ready");
       }).catch(() => { if (!cancelled) setStatus("fallback"); }).finally(() => window.clearTimeout(timeout));

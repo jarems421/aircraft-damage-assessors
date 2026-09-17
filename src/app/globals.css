@@ -75,7 +75,14 @@ h3 { font-size: var(--fs-h3); font-weight: 450; letter-spacing: -.025em; }
 .text-link { display: inline-flex; align-items: center; gap: 30px; min-height: 44px; font-size: 12px; border-bottom: 1px solid currentColor; padding-block: 10px; }
 .text-link span { font-size: 18px; }
 
-.home-hero { background: var(--night); color: #f0f3ee; }
+.home-hero { position: relative; overflow: hidden; background: var(--night); color: #f0f3ee; }
+.home-hero > .site-width { position: relative; z-index: 1; }
+/* Decorative sky: fades in once, then moves only with the page scroll. */
+.hero-sky { position: absolute; inset: -8% 0; pointer-events: none; z-index: 0; }
+.hero-sky svg { position: absolute; transform: translate3d(0, calc(var(--sky-shift, 0px) * var(--speed)), 0) rotate(var(--tilt)); }
+.hero-sky:not([data-ready]) svg { opacity: 0 !important; }
+.hero-sky[data-ready] svg { animation: sky-in .9s ease-out both; }
+@keyframes sky-in { from { opacity: 0; transform: translate3d(-14px, 24px, 0) rotate(var(--tilt)); } }
 .hero-grid { display: grid; grid-template-columns: var(--split); align-items: center; gap: var(--split-gap); padding-top: var(--space-5); padding-bottom: var(--space-4); min-height: 660px; }
 .hero-copy { padding-block: var(--space-4); }
 .hero-copy .eyebrow { color: #a8bac5; }
