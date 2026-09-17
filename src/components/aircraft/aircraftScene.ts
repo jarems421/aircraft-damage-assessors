@@ -135,13 +135,33 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
       marker.toggleAttribute("data-occluded", !!hit && hit.distance < reach - 0.45);
     });
   }
+  /**
+   * The propeller turns while the model is being handled and winds down when it is let go, the way a
+   * prop does after shutdown. Purely decorative, so reduced-motion settings skip it, and it never
+   * spins on its own: rendering still only happens in response to input.
+   */
+  const propeller = aircraft.getObjectByName("propeller");
+  let spin = 0;
+  function spinUp(amount: number) {
+    if (reducedMotion.matches) return;
+    spin = Math.min(0.55, Math.max(spin, amount));
+    update();
+  }
   function animate() {
     frame = 0;
     const ease = reducedMotion.matches ? 1 : 0.22;
     yaw += (targetYaw - yaw) * ease;
     pitch += (targetPitch - pitch) * ease;
-    if (Math.abs(targetYaw - yaw) < 0.001 && Math.abs(targetPitch - pitch) < 0.001) { yaw = targetYaw; pitch = targetPitch; }
-    else frame = requestAnimationFrame(animate);
+    const settled = Math.abs(targetYaw - yaw) < 0.001 && Math.abs(targetPitch - pitch) < 0.001;
+    if (settled) { yaw = targetYaw; pitch = targetPitch; }
+    if (spin > 0.0015) {
+      if (propeller) propeller.rotation.z += spin;
+      // Holding the model keeps the blades turning; letting go winds them down.
+      spin *= drag ? 0.995 : 0.94;
+    } else {
+      spin = 0;
+    }
+    if (!settled || spin > 0) frame = requestAnimationFrame(animate);
     render();
   }
   function update() { if (!frame && !disposed) frame = requestAnimationFrame(animate); }
@@ -165,6 +185,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
     targetYaw = drag.yaw + (e.clientX - drag.x) * 0.008;
     // On touch, vertical gestures remain available to scroll the page.
     if (e.pointerType !== "touch") targetPitch = THREE.MathUtils.clamp(drag.pitch + (e.clientY - drag.y) * 0.006, MIN_PITCH, MAX_PITCH);
+    spinUp(0.12);
     update();
   }
   function up(e: PointerEvent) { if (drag?.id === e.pointerId) drag = null; }
@@ -173,6 +194,13 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
   canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
   canvas.addEventListener("webglcontextlost", lost);
   resize();
+  // Entrance: the aircraft turns into its resting angle while the propeller winds down.
+  if (!reducedMotion.matches) {
+    yaw = DEFAULT_YAW - 0.8;
+    pitch = DEFAULT_PITCH + 0.16;
+    spin = 0.5;
+    update();
+  }
   return {
     highlight(zones: string[]) {
       zoneMaterials.forEach((materials, zone) => {
@@ -196,6 +224,7 @@ export function mountAircraftScene(host: HTMLDivElement, markers: HTMLButtonElem
         targetYaw = DEFAULT_YAW + Math.round((targetYaw - DEFAULT_YAW) / (Math.PI * 2)) * Math.PI * 2;
         targetPitch = DEFAULT_PITCH;
       }
+      spinUp(0.2);
       update();
     },
     dispose() {

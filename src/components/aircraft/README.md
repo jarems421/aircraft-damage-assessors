@@ -20,7 +20,7 @@ Visitors indicate where an aircraft is damaged. Five numbered markers on the mod
 
 The component is a GET form to `/contact`, submitting `service=damage-assessment` and `area=<id>`. The contact form preselects the area. Because it is a plain form, selection works without JavaScript or WebGL.
 
-Mouse dragging controls azimuth and elevation; horizontal touch dragging rotates while vertical gestures still scroll the page. Buttons provide rotation, top view and reset.
+The propeller turns while the model is handled and winds down when released, and the aircraft eases into its resting angle on load; both are skipped under reduced motion, and neither animates on idle. Mouse dragging controls azimuth and elevation; horizontal touch dragging rotates while vertical gestures still scroll the page. Buttons provide rotation, top view and reset.
 
 Areas live in `src/data/assessmentZones.ts`. They are enquiry inputs only — do not attach area-specific service claims to them. Replacement geometry should retain the coordinate system or update those positions and camera extremities together.
 

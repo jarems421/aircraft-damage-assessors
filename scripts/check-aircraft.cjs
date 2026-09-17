@@ -122,6 +122,22 @@ const markerLeft = page => page.$eval('button[aria-label="Select Nose & propelle
 
     await page.goto(base, { waitUntil: 'networkidle0' });
     await ready(page);
+    const view = await page.$('[data-status]');
+    const hideOverlay = await page.addStyleTag({ content: '[data-status] > button,[data-status] > div { visibility: hidden !important; }' });
+    await settle();
+    await page.locator('button[aria-label="Rotate right"]').click();
+    const turning = await view.screenshot();
+    await new Promise(resolve => setTimeout(resolve, 70));
+    assert.equal(Buffer.from(turning).equals(Buffer.from(await view.screenshot())), false, 'Propeller turns while the model moves');
+    await settle(); await settle();
+    const still = await view.screenshot();
+    await new Promise(resolve => setTimeout(resolve, 400));
+    assert.equal(Buffer.from(still).equals(Buffer.from(await view.screenshot())), true, 'Scene stops rendering once it settles');
+    await hideOverlay.evaluate(el => el.remove());
+    console.log('PASS propeller turns on input and the scene settles to a stop');
+
+    await page.goto(base, { waitUntil: 'networkidle0' });
+    await ready(page);
     await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
     await page.focus('button[aria-label="Rotate right"]'); await page.keyboard.press('Enter');
     await page.$eval('[data-status] canvas', canvas => canvas.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext());

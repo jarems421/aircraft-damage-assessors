@@ -165,7 +165,7 @@ export function createAircraft() {
   // Spinner and two shaped, pitched propeller blades.
   zone="nose";
   ellipsoid([0,-.015,-2.82],[.195,.195,.27],alloy);
-  const propeller=new THREE.Group();
+  const propeller=new THREE.Group();propeller.name="propeller";
   for(const side of [-1,1]) {
     const blade=new THREE.Shape();blade.moveTo(-.045,.12);blade.bezierCurveTo(-.11,.45,-.09,.91,-.035,1.03);blade.quadraticCurveTo(.02,1.09,.07,1.02);blade.bezierCurveTo(.14,.65,.1,.25,.045,.12);blade.closePath();
     const geometry=new THREE.ExtrudeGeometry(blade,{depth:.018,bevelEnabled:true,bevelSize:.009,bevelThickness:.008,bevelSegments:2});
