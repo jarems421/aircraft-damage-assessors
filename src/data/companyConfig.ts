@@ -16,7 +16,8 @@ export const COMPANY_CONFIG: CompanyConfig = {
   name: "Aircraft Damage Assessors Ltd",
   shortName: "Aircraft Damage Assessors",
   descriptor: "Aircraft damage assessment and related aviation technical services.",
-  email: "avionicsplus@gmail.com",
+  /** Main published address for general enquiries; also the default enquiry form recipient. */
+  email: "inquiries@aircraftdamageassessors.com",
   telephone: "+254713971662",
   telephoneDisplay: "+254 713 971 662",
   /** Same line as the telephone; confirmed by the client as reachable on WhatsApp. */
@@ -28,6 +29,16 @@ export const COMPANY_CONFIG: CompanyConfig = {
   founded: 2026,
   reportTurnaround: "five working days",
 };
+/**
+ * Published mailboxes, confirmed by the client on 22 October 2026. The first is the general address.
+ * Rose's surname has not been supplied.
+ */
+export const COMPANY_EMAILS = [
+  { label: "General enquiries", address: "inquiries@aircraftdamageassessors.com" },
+  { label: "Roger Thomson, Director", address: "roger@aircraftdamageassessors.com" },
+  { label: "Rose, Secretary", address: "rose@aircraftdamageassessors.com" },
+  { label: "Finance", address: "finance@aircraftdamageassessors.com" },
+];
 /** Confirmed people. Biographies are still to be supplied. */
 export const COMPANY_PEOPLE = [{ name: "Roger Thomson", role: "Director" }];
 /** Confirmed licences, held by the company's director. Written with articles so they read as a list. */

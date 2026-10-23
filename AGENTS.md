@@ -114,7 +114,11 @@ unless these are subsequently confirmed by the client.
 Confirmed by the client on 16 September 2026. These are the only company facts that may be published.
 They live in `src/data/companyConfig.ts`; do not restate them elsewhere as new claims or embellish them.
 
-- Business email: avionicsplus@gmail.com (also receives website enquiries)
+- Business emails (confirmed 22 October 2026), all on aircraftdamageassessors.com:
+  - inquiries@ — general enquiries; the main published address and website enquiry recipient
+  - roger@ — Roger Thomson, director and owner
+  - rose@ — Rose, secretary (surname not supplied)
+  - finance@ — finance matters
 - Business telephone: +254 713 971 662
 - Service region: East Africa; the company travels to the aircraft's location
 - Founded: 2026

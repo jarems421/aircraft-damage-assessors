@@ -32,7 +32,7 @@ Sending is **switched on and fully configured** in Production and Preview:
 | Variable | Value |
 | --- | --- |
 | `RESEND_API_KEY` | set (send-only key) |
-| `ENQUIRY_TO` | `avionicsplus@gmail.com` |
+| `ENQUIRY_TO` | `avionicsplus@gmail.com` — change to `inquiries@aircraftdamageassessors.com` once that mailbox receives mail |
 | `ENQUIRY_FROM` | `enquiries@aircraftdamageassessors.com` |
 
 `aircraftdamageassessors.com` is verified in Resend (DKIM, SPF and DMARC records live at Namecheap) and
