@@ -158,6 +158,11 @@ h3 { font-size: var(--fs-h3); font-weight: 450; letter-spacing: -.025em; }
 .ready-list + .contact-details { border-top: 0; margin-top: var(--space-2); padding-top: 0; }
 .contact-details a { display: block; padding-block: 10px; font-size: var(--fs-body); }
 .contact-details p { font-size: 12px !important; }
+.contact-emails { margin: 0 0 var(--space-2); }
+.contact-emails div + div { margin-top: var(--space-1); }
+.contact-emails dt { color: var(--muted); font-size: 12px; }
+.contact-emails dd { margin: 0; }
+.contact-emails a { padding-block: 6px; overflow-wrap: anywhere; }
 
 .enquiry-column,.enquiry-form { min-width: 0; }
 .form-notice { border-left: 2px solid #839cab; padding-left: var(--space-3); margin-bottom: var(--space-4); color: var(--muted); font-size: var(--fs-small); line-height: 1.8; }

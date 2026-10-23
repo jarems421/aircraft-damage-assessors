@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { COMPANY_CONFIG } from "@/data/companyConfig";
-import { areaLabels, safeFileName, serviceTitle, validateEnquiry, validateFiles, type EnquiryFields } from "@/lib/enquiry";
+import { safeFileName, serviceTitle, validateEnquiry, validateFiles, type EnquiryFields } from "@/lib/enquiry";
 import { enquiryRecipient, isMailConfigured, sendMail } from "@/lib/mail";
 
 export const runtime = "nodejs";
@@ -24,11 +24,8 @@ function companyEmail(fields: EnquiryFields, files: string[]) {
     `Name: ${fields.fullName}`,
     `Email: ${fields.email}`,
     `Service: ${serviceTitle(fields.service)}`,
-    `Damage areas: ${areaLabels(fields.areas).join(", ") || "Not specified"}`,
-    `Aircraft type: ${fields.aircraftType || "Not given"}`,
-    `Registration: ${fields.aircraftRegistration || "Not given"}`,
-    `Location: ${fields.aircraftLocation || "Not given"}`,
-    `Photos attached: ${files.length ? files.join(", ") : "None"}`,
+    ...fields.details.map(detail => `${detail.label}: ${detail.value || "Not given"}`),
+    `Files attached: ${files.length ? files.join(", ") : "None"}`,
     "",
     "Enquiry:",
     fields.incidentDescription,
@@ -47,8 +44,7 @@ function confirmationEmail(fields: EnquiryFields) {
     "Your enquiry:",
     fields.incidentDescription,
     "",
-    `Damage areas: ${areaLabels(fields.areas).join(", ") || "Not specified"}`,
-    `Aircraft: ${[fields.aircraftType, fields.aircraftRegistration, fields.aircraftLocation].filter(Boolean).join(" · ") || "Not given"}`,
+    ...fields.details.filter(detail => detail.value).map(detail => `${detail.label}: ${detail.value}`),
     "",
     "This confirmation was sent automatically. You can reply to it if you need to add anything.",
     "",

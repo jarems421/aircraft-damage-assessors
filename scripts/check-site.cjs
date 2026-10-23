@@ -52,8 +52,18 @@ const assert = require('node:assert/strict');
     await page.goto(base + '/contact?service=pre-purchase-inspections', { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('#serviceRequired', el => el.value), 'pre-purchase-inspections');
     assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /pre-purchase inspection/i, 'Heading follows the chosen service');
+    assert.equal(await page.$('#damageArea-wing'), null, 'Pre-purchase form does not ask about damage');
+    assert.ok(await page.$('#yearOfManufacture'), 'Pre-purchase form asks pre-purchase questions');
     await page.goto(base + '/contact?service=aircraft-recovery', { waitUntil: 'networkidle0' });
     assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /aircraft recovery/i);
+    await page.type('#aircraftType', 'Kept on switch');
+    await page.select('#serviceRequired', 'modification-approvals');
+    await page.waitForSelector('#modificationArea-avionics');
+    assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /modification/i, 'Heading follows a service changed in the form');
+    assert.match(await page.$eval('.ready-list', el => el.textContent), /modification involves/, 'Preparation list follows the service');
+    assert.equal(await page.$eval('#aircraftType', el => el.value), 'Kept on switch', 'Shared answers survive a service change');
+    assert.match(await page.evaluate(() => location.search), /service=modification-approvals/);
+    console.log('PASS each service has its own enquiry questions');
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
     assert.match(await page.$eval('.contact-layout aside h2', el => el.textContent), /Request an assessment/, 'Default heading without a service');
     await page.goto(base + '/contact?service=pre-purchase-inspections', { waitUntil: 'networkidle0' });
@@ -81,7 +91,9 @@ const assert = require('node:assert/strict');
       console.log('PASS service preselection, validation, enquiry preview and no transmission');
     }
     await page.goto(base + '/contact', { waitUntil: 'networkidle0' });
-    assert.ok(await page.$('a[href="mailto:avionicsplus@gmail.com"]'), 'Contact email is published');
+    for (const mailbox of ['inquiries', 'roger', 'rose', 'finance']) {
+      assert.ok(await page.$(`a[href="mailto:${mailbox}@aircraftdamageassessors.com"]`), `${mailbox}@ email is published`);
+    }
     assert.ok(await page.$('a[href="tel:+254713971662"]'), 'Contact telephone is published');
     for (const route of ['/privacy', '/terms', '/cookies']) {
       await page.goto(base + route, { waitUntil: 'networkidle0' });

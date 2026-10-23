@@ -42,7 +42,7 @@ function makePng(width, height) {
 }
 function enquiryBody(overrides = {}, files = []) {
   const form = new FormData();
-  const fields = { fullName: 'Test Enquirer', email: 'enquirer@example.com', serviceRequired: 'damage-assessment', aircraftType: 'Cessna 172', aircraftRegistration: '5Y-TST', aircraftLocation: 'Naivasha', incidentDescription: 'Damage to the wing after a heavy landing; please advise on assessment.', ...overrides };
+  const fields = { fullName: 'Test Enquirer', email: 'enquirer@example.com', serviceRequired: 'damage-assessment', aircraftType: 'Cessna 172', aircraftRegistration: '5Y-TST', aircraftLocation: 'Naivasha', incidentType: 'landing-incident', incidentDescription: 'Damage to the wing after a heavy landing; please advise on assessment.', ...overrides };
   for (const [key, value] of Object.entries(fields)) if (value !== null) form.append(key, value);
   form.append('damageArea', 'wing');
   form.append('damageArea', 'gear');
@@ -91,6 +91,10 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     assert.equal(response.status, 400, 'Invalid email rejected');
     response = await post(enquiryBody({ serviceRequired: 'made-up-service' }), { ip: 'c' });
     assert.equal(response.status, 400, 'Unknown service rejected');
+    response = await post(enquiryBody({ incidentType: 'made-up-option' }), { ip: 'c2' });
+    assert.equal(response.status, 400, 'Answer outside the listed options rejected');
+    response = await post(enquiryBody({ serviceRequired: 'aircraft-recovery', aircraftLocation: null }), { ip: 'c3' });
+    assert.equal(response.status, 400, 'Recovery enquiry needs the aircraft location');
     response = await post(enquiryBody({ companyWebsite: 'https://spam.example' }), { ip: 'd' });
     assert.equal(response.status, 400, 'Honeypot rejected');
     response = await post(enquiryBody({}, [{ name: 'notes.txt', type: 'text/plain', data: Buffer.from('hello') }]), { ip: 'e' });
@@ -114,6 +118,7 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     assert.match(company.subject, /Aircraft damage assessment — Test Enquirer/);
     assert.match(company.text, /Wings, Landing gear/);
     assert.match(company.text, /5Y-TST/);
+    assert.match(company.text, /What happened: Landing incident/, 'Service-specific answers are labelled in the email');
     assert.equal(company.attachments.length, 1);
     assert.equal(company.attachments[0].filename, 'damage-photo.png', 'Attachment name is sanitised');
     assert.equal(Buffer.from(company.attachments[0].content, 'base64').equals(photo), true, 'Attachment arrives intact');
@@ -146,6 +151,9 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     await page.goto(`${SITE}/contact?service=aircraft-recovery&area=tail`, { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('#serviceRequired', el => el.value), 'aircraft-recovery');
     assert.equal(await page.$eval('#damageArea-tail', el => el.checked), true);
+    assert.ok(await page.$('#canMoveOnWheels'), 'Recovery form asks recovery questions');
+    assert.equal(await page.$('#incidentDate'), null, 'Recovery form omits damage-assessment questions');
+    await page.type('#aircraftLocation', 'Naivasha airstrip');
     await page.type('#fullName', 'Browser Test');
     await page.type('#email', 'browser@example.com');
     await page.type('#incidentDescription', 'Tail damage after a ground handling incident. Please advise.');

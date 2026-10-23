@@ -1,11 +1,20 @@
 "use client";
 import { useRef, useState, useSyncExternalStore } from "react";
-import { ASSESSMENT_ZONES } from "@/data/assessmentZones";
+import type { EnquiryField, EnquiryForm } from "@/data/enquiryForms";
 import { SERVICES_DATA } from "@/data/servicesData";
-import { ACCEPT_ATTRIBUTE, FIELD_LIMITS, HONEYPOT_FIELD, MAX_FILES, MAX_FILE_BYTES, MAX_TOTAL_BYTES, formatBytes } from "@/lib/enquiry";
+import { ACCEPT_ATTRIBUTE, FIELD_LIMITS, HONEYPOT_FIELD, MAX_FILES, MAX_FILE_BYTES, MAX_TOTAL_BYTES, enquiryDetails, formatBytes } from "@/lib/enquiry";
 
 const subscribe = () => () => {};
-type Props = { initialService?: string; initialAreas?: string[]; sendingEnabled?: boolean };
+type Props = { form: EnquiryForm; onServiceChange: (service: string) => void; initialAreas?: string[]; sendingEnabled?: boolean };
+
+/** One service-specific question. Shared questions (aircraft type, location) keep their name across services, so answers carry over when the service changes. */
+function Field({ field, initialAreas }: { field: EnquiryField; initialAreas: string[] }) {
+  if (field.kind === "checks") return <fieldset className="form-checks form-wide"><legend>{field.label} (optional, select all that apply)</legend><div className="check-options">{field.options.map(option => <label key={option.value} htmlFor={`${field.name}-${option.value}`}><input id={`${field.name}-${option.value}`} type="checkbox" name={field.name} value={option.value} defaultChecked={field.name === "damageArea" && initialAreas.includes(option.value)} />{option.label}</label>)}</div></fieldset>;
+  const className = `form-field${field.wide ? " form-wide" : ""}`;
+  const label = `${field.label}${field.kind === "text" && field.required ? " *" : " (optional)"}`;
+  if (field.kind === "select") return <div className={className}><label htmlFor={field.name}>{label}</label><select id={field.name} name={field.name} defaultValue=""><option value="">Select…</option>{field.options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select></div>;
+  return <div className={className}><label htmlFor={field.name}>{label}</label><input id={field.name} name={field.name} type={field.type ?? "text"} inputMode={field.inputMode} placeholder={field.placeholder} required={field.required} maxLength={field.maxLength} /></div>;
+}
 
 // Large photos are downscaled in the browser: phone cameras easily exceed the upload allowance,
 // and the server (and Vercel's request limit) would otherwise reject the enquiry.
@@ -27,7 +36,7 @@ async function prepareFile(file: File) {
   }
 }
 
-export function AssessmentRequestForm({ initialService = "damage-assessment", initialAreas = [], sendingEnabled = false }: Props) {
+export function AssessmentRequestForm({ form: spec, onServiceChange, initialAreas = [], sendingEnabled = false }: Props) {
   const hydrated = useSyncExternalStore(subscribe, () => true, () => false);
   const [review, setReview] = useState<{ label: string; value: string }[] | null>(null);
   const [files, setFiles] = useState<File[]>([]);
@@ -43,12 +52,9 @@ export function AssessmentRequestForm({ initialService = "damage-assessment", in
     setReview([
       { label: "Name", value: String(data.get("fullName") ?? "") },
       { label: "Email", value: String(data.get("email") ?? "") },
-      { label: "Service", value: SERVICES_DATA.find(item => item.id === data.get("serviceRequired"))?.title ?? "" },
-      { label: "Damage areas", value: ASSESSMENT_ZONES.filter(zone => data.getAll("damageArea").includes(zone.id)).map(zone => zone.label).join(", ") },
-      { label: "Aircraft", value: String(data.get("aircraftType") ?? "") },
-      { label: "Registration", value: String(data.get("aircraftRegistration") ?? "") },
-      { label: "Location", value: String(data.get("aircraftLocation") ?? "") },
-      { label: "Enquiry", value: String(data.get("incidentDescription") ?? "") },
+      { label: "Service", value: SERVICES_DATA.find(item => item.id === spec.service)?.title ?? "" },
+      ...enquiryDetails(spec, data),
+      { label: spec.description.label, value: String(data.get("incidentDescription") ?? "") },
     ]);
     requestAnimationFrame(() => reviewHeading.current?.focus());
   }
@@ -100,24 +106,21 @@ export function AssessmentRequestForm({ initialService = "damage-assessment", in
     onSubmit={sendingEnabled ? send : preview}
   >
     {sendingEnabled
-      ? <p className="form-notice">Send your enquiry with photos of the damage if you have them. You will receive an email confirmation.</p>
+      ? <p className="form-notice">Attach photos or documents if you have them. You will receive an email confirmation.</p>
       : <p className="form-notice"><strong>Preview form.</strong> You can prepare and review an enquiry here. Nothing is sent yet — please email us directly in the meantime.</p>}
     {!sendingEnabled && <noscript><p className="form-notice">JavaScript is required to preview an enquiry.</p></noscript>}
     <div className="form-grid">
       <div className="form-field"><label htmlFor="fullName">Your name *</label><input id="fullName" name="fullName" autoComplete="name" required maxLength={FIELD_LIMITS.fullName} /></div>
       <div className="form-field"><label htmlFor="email">Email address *</label><input id="email" name="email" type="email" autoComplete="email" required maxLength={FIELD_LIMITS.email} /></div>
-      <div className="form-field form-wide"><label htmlFor="serviceRequired">Service</label><select key={initialService} id="serviceRequired" name="serviceRequired" defaultValue={initialService}>{SERVICES_DATA.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</select></div>
-      <fieldset className="form-checks form-wide"><legend>Areas of aircraft damage (optional, select all that apply)</legend><div className="check-options">{ASSESSMENT_ZONES.map(zone => <label key={zone.id} htmlFor={`damageArea-${zone.id}`}><input id={`damageArea-${zone.id}`} type="checkbox" name="damageArea" value={zone.id} defaultChecked={initialAreas.includes(zone.id)} />{zone.label}</label>)}</div></fieldset>
-      <div className="form-field"><label htmlFor="aircraftType">Aircraft type (optional)</label><input id="aircraftType" name="aircraftType" maxLength={FIELD_LIMITS.aircraftType} /></div>
-      <div className="form-field"><label htmlFor="aircraftRegistration">Registration (optional)</label><input id="aircraftRegistration" name="aircraftRegistration" maxLength={FIELD_LIMITS.aircraftRegistration} /></div>
-      <div className="form-field form-wide"><label htmlFor="aircraftLocation">Aircraft location (optional)</label><input id="aircraftLocation" name="aircraftLocation" maxLength={FIELD_LIMITS.aircraftLocation} /></div>
-      <div className="form-field form-wide"><label htmlFor="incidentDescription">What would you like to discuss? *</label><textarea id="incidentDescription" name="incidentDescription" required minLength={10} maxLength={FIELD_LIMITS.incidentDescription} rows={5} /></div>
+      <div className="form-field form-wide"><label htmlFor="serviceRequired">Service</label><select id="serviceRequired" name="serviceRequired" value={spec.service} onChange={event => onServiceChange(event.target.value)}>{SERVICES_DATA.map(item => <option key={item.id} value={item.id}>{item.title}</option>)}</select></div>
+      {spec.fields.map(field => <Field key={`${field.name}:${field.kind === "text" ? "" : field.options.map(option => option.value).join()}`} field={field} initialAreas={initialAreas} />)}
+      <div className="form-field form-wide"><label htmlFor="incidentDescription">{spec.description.label} *</label><textarea id="incidentDescription" name="incidentDescription" placeholder={spec.description.placeholder} required minLength={10} maxLength={FIELD_LIMITS.incidentDescription} rows={5} /></div>
       {sendingEnabled && <div className="form-field form-wide">
-        <label htmlFor="photos">Photos of the damage (optional)</label>
+        <label htmlFor="photos">{spec.attachments.label} (optional)</label>
         {/* The file input covers the drop area, so choosing and dragging both work without JavaScript. */}
         <div className="upload-drop">
           <input id="photos" name="photos" type="file" multiple accept={ACCEPT_ATTRIBUTE} aria-describedby="photos-hint" onChange={event => setFiles(Array.from(event.target.files ?? []).slice(0, MAX_FILES))} />
-          <span className="upload-action" aria-hidden="true">Choose photos</span>
+          <span className="upload-action" aria-hidden="true">{spec.attachments.action}</span>
           <span className="upload-hint" aria-hidden="true">or drag them here</span>
         </div>
         <p id="photos-hint" className="field-hint">Up to {MAX_FILES} photos or PDFs, {formatBytes(MAX_TOTAL_BYTES)} in total. Large photos are reduced automatically before sending.</p>
