@@ -16,7 +16,7 @@ export const COMPANY_CONFIG: CompanyConfig = {
   name: "Aircraft Damage Assessors Ltd",
   shortName: "Aircraft Damage Assessors",
   descriptor: "Aircraft damage assessment and related aviation technical services.",
-  /** Main published address for general enquiries; also the default enquiry form recipient. */
+  /** Main published address for general enquiries. Form enquiries go to `ENQUIRY_TO` in Vercel (currently roger@). */
   email: "inquiries@aircraftdamageassessors.com",
   telephone: "+254713971662",
   telephoneDisplay: "+254 713 971 662",
