@@ -109,7 +109,7 @@ const assert = require('node:assert/strict');
     assert.equal(structured.telephone, '+254184098768');
     assert.equal(structured.areaServed.name, 'East Africa');
     assert.equal(structured.hasOfferCatalog.itemListElement.length, 5, 'All five services described for search engines');
-    assert.ok(await page.$('a[href="https://wa.me/254713971662"]'), 'WhatsApp link');
+    assert.ok(await page.$('a[href="https://wa.me/254184098768"]'), 'WhatsApp link');
     await page.setViewport({ width: 390, height: 900, isMobile: true, hasTouch: true });
     await page.goto(base, { waitUntil: 'networkidle0' });
     assert.equal(await page.$eval('.mobile-contact-bar', el => getComputedStyle(el).display), 'grid', 'Quick contact bar shows on phones');

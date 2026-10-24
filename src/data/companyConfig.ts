@@ -20,8 +20,8 @@ export const COMPANY_CONFIG: CompanyConfig = {
   email: "inquiries@aircraftdamageassessors.com",
   telephone: "+254184098768",
   telephoneDisplay: "+254 184 098 768",
-  /** The previous company line (+254 713 971 662), confirmed as reachable on WhatsApp. Not yet confirmed for the new number. */
-  whatsapp: "254713971662",
+  /** Same line as the telephone, used for the WhatsApp link (switched to the new number on 24 October 2026). */
+  whatsapp: "254184098768",
   address: null,
   registeredOffice: "Naivasha Airspray, Moi South Lake Road, Kenya",
   serviceRegion: "East Africa",

@@ -119,7 +119,7 @@ They live in `src/data/companyConfig.ts`; do not restate them elsewhere as new c
   - roger@ — Roger Thomson, director and owner
   - rose@ — Rose, secretary (surname not supplied)
   - finance@ — finance matters
-- Business telephone: +254 184 098 768 (changed 24 October 2026; WhatsApp still on the previous line, +254 713 971 662)
+- Business telephone and WhatsApp: +254 184 098 768 (changed 24 October 2026)
 - Service region: East Africa; the company travels to the aircraft's location
 - Founded: 2026
 - Director: Roger Thomson, who also handles privacy and data questions
