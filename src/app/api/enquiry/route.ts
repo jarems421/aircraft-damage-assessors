@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { COMPANY_CONFIG } from "@/data/companyConfig";
 import { safeFileName, serviceTitle, validateEnquiry, validateFiles, type EnquiryFields } from "@/lib/enquiry";
-import { enquiryRecipient, isMailConfigured, sendMail } from "@/lib/mail";
+import { enquiryRecipient, isMailConfigured, sendEnquiryMail, sendMail } from "@/lib/mail";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     content: Buffer.from(await file.arrayBuffer()).toString("base64"),
   })));
   const fields = validated.fields;
-  const enquiry = await sendMail({
+  const enquiry = await sendEnquiryMail({
     to: enquiryRecipient(),
     subject: `Website enquiry — ${serviceTitle(fields.service)} — ${fields.fullName}`,
     text: companyEmail(fields, attachments.map(attachment => attachment.filename)),

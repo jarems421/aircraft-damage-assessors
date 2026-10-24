@@ -7,11 +7,46 @@ const http = require('node:http');
 const zlib = require('node:zlib');
 const crypto = require('node:crypto');
 const assert = require('node:assert/strict');
+const net = require('node:net');
 const { spawn } = require('node:child_process');
 const puppeteer = require('puppeteer-core');
 
-const MOCK_PORT = 3999, SITE_PORT = 3003, SITE = `http://localhost:${SITE_PORT}`;
+const MOCK_PORT = 3999, SMTP_PORT = 2526, SITE_PORT = 3003, SMTP_SITE_PORT = 3004, SITE = `http://localhost:${SITE_PORT}`;
 const sent = [];
+// Stand-in for the company mail server: accepts a login (or refuses it) and records each message.
+const smtpMessages = [];
+let smtpRefuseLogin = false;
+const smtp = net.createServer(socket => {
+  let buffer = '', inData = false, user = null;
+  const reply = line => socket.write(`${line}\r\n`);
+  reply('220 mock ESMTP');
+  socket.on('error', () => {});
+  socket.on('data', chunk => {
+    buffer += chunk.toString('latin1');
+    for (let end; (end = buffer.indexOf(inData ? '\r\n.\r\n' : '\r\n')) !== -1;) {
+      if (inData) {
+        smtpMessages.push({ user, raw: buffer.slice(0, end) });
+        buffer = buffer.slice(end + 5); inData = false; reply('250 queued'); continue;
+      }
+      const line = buffer.slice(0, end); buffer = buffer.slice(end + 2);
+      const verb = line.split(' ')[0].toUpperCase();
+      if (verb === 'EHLO') { reply('250-mock'); reply('250 AUTH PLAIN'); }
+      else if (verb === 'AUTH' && smtpRefuseLogin) reply('535 Authentication failed');
+      else if (verb === 'AUTH') { user = Buffer.from(line.split(' ')[2] || '', 'base64').toString().split('\0')[1]; reply('235 OK'); }
+      else if (verb === 'DATA') { inData = true; reply('354 go ahead'); }
+      else if (verb === 'QUIT') { reply('221 bye'); socket.end(); }
+      else reply('250 OK');
+    }
+  });
+});
+const stopSite = child => process.platform === 'win32'
+  ? spawn('taskkill', ['/pid', String(child.pid), '/t', '/f'], { stdio: 'ignore' })
+  : child.kill();
+async function waitForSite(url) {
+  for (let i = 0; i < 40; i++) {
+    try { if ((await fetch(url)).ok) return; } catch { await new Promise(resolve => setTimeout(resolve, 500)); }
+  }
+}
 
 function crc32(buffer) {
   let crc = ~0;
@@ -63,6 +98,7 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     });
   });
   await new Promise(resolve => mock.listen(MOCK_PORT, resolve));
+  await new Promise(resolve => smtp.listen(SMTP_PORT, '127.0.0.1', resolve));
 
   // stdio is discarded: an unread pipe fills up and stalls the server.
   const server = spawn(`npx next start -p ${SITE_PORT}`, {
@@ -79,11 +115,9 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
       ENQUIRY_FROM: '﻿enquiries@example.com ',
     },
   });
-  let browser;
+  let browser, smtpSite;
   try {
-    for (let i = 0; i < 40; i++) {
-      try { if ((await fetch(SITE)).ok) break; } catch { await new Promise(resolve => setTimeout(resolve, 500)); }
-    }
+    await waitForSite(SITE);
 
     let response = await post(enquiryBody({ incidentDescription: 'short' }), { ip: 'a' });
     assert.equal(response.status, 400, 'Short description rejected');
@@ -172,11 +206,49 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     assert.match(sent[0].text, /Tail/);
     assert.deepEqual(errors, [], 'Browser errors');
     console.log('PASS browser submission, photo downscaling and sent confirmation');
+
+    // With the company mail server configured, the enquiry goes through it and only the confirmation uses Resend.
+    smtpSite = spawn(`npx next start -p ${SMTP_SITE_PORT}`, {
+      shell: true,
+      stdio: 'ignore',
+      env: {
+        ...process.env,
+        RESEND_API_KEY: 'test-key', RESEND_API_BASE: `http://localhost:${MOCK_PORT}`,
+        ENQUIRY_TO: 'company@example.com', ENQUIRY_FROM: 'enquiries@example.com',
+        SMTP_HOST: '127.0.0.1', SMTP_PORT: String(SMTP_PORT), SMTP_USER: 'website@example.com', SMTP_PASS: '﻿secret\n',
+      },
+    });
+    await waitForSite(`http://localhost:${SMTP_SITE_PORT}`);
+    const postSmtp = form => fetch(`http://localhost:${SMTP_SITE_PORT}/api/enquiry`, { method: 'POST', body: form, headers: { Accept: 'application/json', 'x-forwarded-for': 'smtp' } });
+    sent.length = 0;
+    response = await postSmtp(enquiryBody({}, [{ name: 'damage photo.png', type: 'image/png', data: photo }]));
+    assert.equal(response.status, 200, 'Enquiry accepted with the company mail server');
+    assert.equal(smtpMessages.length, 1, 'Enquiry sent through the company mail server');
+    const [relayed] = smtpMessages;
+    assert.equal(relayed.user, 'website@example.com', 'Logged in as the configured mailbox, password cleaned');
+    assert.match(relayed.raw, /From: Aircraft Damage Assessors Ltd <website@example\.com>/, 'Sent as the logged-in mailbox');
+    assert.match(relayed.raw, /To: company@example\.com/);
+    assert.match(relayed.raw, /Reply-To: enquirer@example\.com/, 'Reply goes to the visitor');
+    assert.match(relayed.raw, /Subject: .*Website/, 'Subject kept (encoded, as it contains a dash)');
+    assert.match(relayed.raw, /filename="?damage-photo\.png/, 'Photo attached');
+    assert.equal(sent.length, 1, 'Only the confirmation goes through Resend');
+    assert.deepEqual(sent[0].to, ['enquirer@example.com']);
+    console.log('PASS enquiry through the company mail server, confirmation through Resend');
+
+    smtpRefuseLogin = true;
+    sent.length = 0;
+    response = await postSmtp(enquiryBody());
+    assert.equal(response.status, 200, 'Enquiry still accepted when the mail server refuses the login');
+    assert.equal(smtpMessages.length, 1, 'Nothing relayed after a refused login');
+    assert.equal(sent.length, 2, 'Enquiry falls back to Resend, alongside the confirmation');
+    assert.deepEqual(sent[0].to, ['company@example.com']);
+    console.log('PASS fallback to Resend when the company mail server refuses');
   } finally {
     if (browser) await browser.close();
     // `npx` starts the server in a child process, so kill the whole tree on Windows.
-    if (process.platform === 'win32') spawn('taskkill', ['/pid', String(server.pid), '/t', '/f'], { stdio: 'ignore' });
-    else server.kill();
+    stopSite(server);
+    if (smtpSite) stopSite(smtpSite);
     mock.close();
+    smtp.close();
   }
 })().catch(error => { console.error(error); process.exitCode = 1; });

@@ -115,7 +115,7 @@ Confirmed by the client on 16 September 2026. These are the only company facts t
 They live in `src/data/companyConfig.ts`; do not restate them elsewhere as new claims or embellish them.
 
 - Business emails (confirmed 22 October 2026), all on aircraftdamageassessors.com:
-  - inquiries@ — general enquiries; the main published address and website enquiry recipient (ENQUIRY_TO in Vercel)
+  - inquiries@ — general enquiries; the main published address and intended website enquiry recipient (ENQUIRY_TO in Vercel; temporarily avionicsplus@gmail.com while the Safaricom server blocks Resend, see docs/ENQUIRY-SETUP.md)
   - roger@ — Roger Thomson, director and owner
   - rose@ — Rose, secretary (surname not supplied)
   - finance@ — finance matters

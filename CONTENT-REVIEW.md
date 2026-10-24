@@ -24,7 +24,7 @@ The form has two honest states, decided by whether `RESEND_API_KEY` is configure
 - **Configured:** the enquiry is emailed to the company with photo attachments, and the visitor receives an automatic confirmation. Server-side validation, a honeypot and rate limiting apply; see `docs/ENQUIRY-SETUP.md`.
 - **Not configured:** the form previews an enquiry locally, sends nothing, and tells visitors to email the company directly.
 
-Current live state: configured and verified. Enquiries are delivered to the address in `ENQUIRY_TO` (inquiries@aircraftdamageassessors.com since 24 October 2026) from a verified sending domain, and visitors receive confirmation emails. See `docs/ENQUIRY-SETUP.md`.
+Current live state: configured and verified. Enquiries are delivered to the address in `ENQUIRY_TO` (temporarily avionicsplus@gmail.com while the company mail server blocks Resend; see docs/ENQUIRY-SETUP.md) from a verified sending domain, and visitors receive confirmation emails. See `docs/ENQUIRY-SETUP.md`.
 
 Never simulate delivery. If sending is not configured, the form must continue to say so.
 

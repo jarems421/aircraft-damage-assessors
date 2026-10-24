@@ -24,6 +24,10 @@ See `.env.example`. Never commit real keys.
 | `ENQUIRY_TO` | No | Where enquiries go. Defaults to the published company email. |
 | `ENQUIRY_FROM` | Recommended | Verified sender address. Needed for confirmations to reach visitors. |
 | `RESEND_API_BASE` | No | Test only; `scripts/check-enquiry.cjs` points it at a local stand-in. |
+| `SMTP_HOST` | No | Company mail server, `host56.safaricombusiness.co.ke`. With the three below, the enquiry is sent through it. |
+| `SMTP_PORT` | No | Defaults to `465` (TLS). |
+| `SMTP_USER` | No | Mailbox to log in as, which is also the enquiry's sender. |
+| `SMTP_PASS` | No | That mailbox's password. Changing it in cPanel means updating it here too. |
 
 ## Current live configuration (17 September 2026)
 
@@ -32,7 +36,17 @@ Sending is **switched on and fully configured** in Production and Preview:
 | Variable | Value |
 | --- | --- |
 | `RESEND_API_KEY` | set (send-only key) |
-| `ENQUIRY_TO` | `inquiries@aircraftdamageassessors.com` (changed 24 October 2026) |
+| `ENQUIRY_TO` | `avionicsplus@gmail.com` — temporary, see below |
+| `SMTP_*` | not yet set |
+
+**Company mail server blocks Resend (24 October 2026).** Mail for aircraftdamageassessors.com is hosted on
+Safaricom cPanel (`host56.safaricombusiness.co.ke`). That server refuses Resend's sending servers with
+`550 Your host is not allowed to connect to this server`, so every enquiry to an @aircraftdamageassessors.com
+address bounces, while Gmail and Outlook mail arrives normally. Until this is resolved, `ENQUIRY_TO` points
+at avionicsplus@gmail.com. The fix that does not depend on Safaricom: set the `SMTP_*` variables to a mailbox
+on the server, so the enquiry is sent through it, then set `ENQUIRY_TO` back to
+`inquiries@aircraftdamageassessors.com` and redeploy. If the server refuses the login, the enquiry still goes
+through Resend.
 | `ENQUIRY_FROM` | `enquiries@aircraftdamageassessors.com` |
 
 `aircraftdamageassessors.com` is verified in Resend (DKIM, SPF and DMARC records live at Namecheap) and
