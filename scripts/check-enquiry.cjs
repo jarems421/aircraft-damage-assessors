@@ -126,6 +126,7 @@ const post = (form, { ip = 'test', accept = 'application/json' } = {}) =>
     assert.equal(confirmation.reply_to, 'company@example.com');
     assert.equal(confirmation.attachments, undefined, 'Confirmation carries no attachments');
     assert.match(confirmation.text, /received your enquiry/);
+    assert.match(confirmation.text, /\+254 184 098 768/, 'Confirmation carries the company telephone');
     console.log('PASS enquiry email with attachment, and visitor confirmation');
 
     sent.length = 0;

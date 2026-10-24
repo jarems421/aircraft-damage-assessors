@@ -94,7 +94,7 @@ const assert = require('node:assert/strict');
     for (const mailbox of ['inquiries', 'roger', 'rose', 'finance']) {
       assert.ok(await page.$(`a[href="mailto:${mailbox}@aircraftdamageassessors.com"]`), `${mailbox}@ email is published`);
     }
-    assert.ok(await page.$('a[href="tel:+254713971662"]'), 'Contact telephone is published');
+    assert.ok(await page.$('a[href="tel:+254184098768"]'), 'Contact telephone is published');
     for (const route of ['/privacy', '/terms', '/cookies']) {
       await page.goto(base + route, { waitUntil: 'networkidle0' });
       assert.ok(await page.$$eval('.legal-doc h2', els => els.length > 3), `${route}: legal sections`);
@@ -106,7 +106,7 @@ const assert = require('node:assert/strict');
     assert.match(await page.$eval('.hero-facts', el => el.innerText), /Qatar[\s\S]*East Africa[\s\S]*five working days/, 'Hero facts match the confirmed information');
     const structured = JSON.parse(await page.$eval('script[type="application/ld+json"]', el => el.textContent));
     assert.equal(structured.name, 'Aircraft Damage Assessors Ltd');
-    assert.equal(structured.telephone, '+254713971662');
+    assert.equal(structured.telephone, '+254184098768');
     assert.equal(structured.areaServed.name, 'East Africa');
     assert.equal(structured.hasOfferCatalog.itemListElement.length, 5, 'All five services described for search engines');
     assert.ok(await page.$('a[href="https://wa.me/254713971662"]'), 'WhatsApp link');

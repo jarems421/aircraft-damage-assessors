@@ -16,11 +16,11 @@ export const COMPANY_CONFIG: CompanyConfig = {
   name: "Aircraft Damage Assessors Ltd",
   shortName: "Aircraft Damage Assessors",
   descriptor: "Aircraft damage assessment and related aviation technical services.",
-  /** Main published address for general enquiries. Form enquiries go to `ENQUIRY_TO` in Vercel (currently roger@). */
+  /** Main published address for general enquiries. Form enquiries go to `ENQUIRY_TO` in Vercel (currently this address). */
   email: "inquiries@aircraftdamageassessors.com",
-  telephone: "+254713971662",
-  telephoneDisplay: "+254 713 971 662",
-  /** Same line as the telephone; confirmed by the client as reachable on WhatsApp. */
+  telephone: "+254184098768",
+  telephoneDisplay: "+254 184 098 768",
+  /** The previous company line (+254 713 971 662), confirmed as reachable on WhatsApp. Not yet confirmed for the new number. */
   whatsapp: "254713971662",
   address: null,
   registeredOffice: "Naivasha Airspray, Moi South Lake Road, Kenya",
